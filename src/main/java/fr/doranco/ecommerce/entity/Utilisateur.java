@@ -55,7 +55,7 @@ public class Utilisateur implements Serializable {
 	private String telephone;
 	
 	@NotEmpty
-	@Column(name ="email", length = 13, nullable = false)
+	@Column(name ="email", length = 45, nullable = false, unique = true)
 	private String email;
 	
 	@Column(name ="password", nullable = true)

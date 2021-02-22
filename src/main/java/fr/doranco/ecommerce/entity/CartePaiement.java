@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +18,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "carte_paiement", catalog = "ecommerce_db")
+// TODO: 
+@Embeddable
 public class CartePaiement implements Serializable  {
 	
 	private static final long serialVersionUID = 1L;

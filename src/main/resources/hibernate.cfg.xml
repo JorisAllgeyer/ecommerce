@@ -11,16 +11,20 @@
         <property name="hibernate.connection.username">root</property>
         <property name="hibernate.connection.password">root</property>
         <property name="hibernate.show_sql">true</property>
-        
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
-
         <property name="connection.pool_size">3</property>
         <property name="current_session_context_class">thread</property>
         <property name="hibernate.hbm2ddl.auto">create-drop</property>
         <property name="hibernate.charSet">UTF-8</property>
 		
-		<!--
-        <mapping class="fr.doranco.filrouge.entity.Utilisateur"></mapping>
-		-->
+		
+        <mapping class="fr.doranco.ecommerce.entity.Utilisateur"></mapping>
+        <mapping class="fr.doranco.ecommerce.entity.Adresse"></mapping>
+        <mapping class="fr.doranco.ecommerce.entity.Article"></mapping>
+        <mapping class="fr.doranco.ecommerce.entity.ArticlePanier"></mapping>
+        <mapping class="fr.doranco.ecommerce.entity.CartePaiement"></mapping>
+        <mapping class="fr.doranco.ecommerce.entity.Commande"></mapping>
+        <mapping class="fr.doranco.ecommerce.entity.LigneCommande"></mapping>
+		
     </session-factory>
 </hibernate-configuration>

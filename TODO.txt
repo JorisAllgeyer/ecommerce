@@ -1,0 +1,11 @@
+1. créer utilisateur + se connecter (isactif = true)
+2. passer une commande
+
+Entities: 
+OK adresse
+OK article
+OK articlepanier
+OK cartepaiement
+OK commande
+OK lignecommande
+OK utilisateur
