@@ -10,6 +10,11 @@ OK commande
 OK lignecommande
 OK utilisateur
 
+iceFaces
+primeFaces
+richFaces
+Mojarra
+
 Fonctionnalités à réaliser de bout en bout (depuis l'interface graphique jusqu'à la BDD) :
 
   1/ Création d'un compte Utilisateur
@@ -33,3 +38,18 @@ GestionaAchatBean / GestionArticlesBean / GestionAdminBean
 
 - Couche Backend (Interfaces et classes) :
 - Couche persistance (Interfaces et classes) :
+
+
+WebServices à créer :
+
+1/ webService qui permet de récupérer la liste des utilisateurs (uniquement les emails et panier correspondants) qui ont un panier non vide. (Avec authentification d'un profil "WS" et un login/password)
+
+Set<String, List<ArticlePanier>> getUtilisateursAvecPanierNonVide()
+
+@RolesAllowed({"WS"})
+@GET
+@Path("emails-panier")
+@Produces(MediaType.APPLICATION_JSON + CHARSET)
+ Set<String, List<ArticlePanier>> getUtilisateursAvecPanierNonVide()
+
+

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></meta>
+	<title>Ecommerce</title>
+</head>
+	<body>
+		<ui:composition template="resources/template/layout.xhtml">
+			<ui:define name="content">
+				<f:view>
+					<h4>Administartion Employés</h4>
+<!-- LIST -->
+					<h:form>
+						<h:dataTable value="#{gestionAdminBean.getListeEmployes()}" var ="e">
+							<h:column>
+								<f:facet name="header">ID</f:facet>
+								<h:outputText value="#{e.id}"></h:outputText>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Genre</f:facet>
+								<h:outputText value="#{e.genre}"></h:outputText>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Nom</f:facet>
+								<h:outputText value="#{e.nom}"></h:outputText>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Prénom</f:facet>
+								<h:outputText value="#{e.prenom}"></h:outputText>
+							</h:column>
+							<h:column>
+								<f:facet name="header">email</f:facet>
+								<h:outputText value="#{e.email}"></h:outputText>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Date de naissance</f:facet>
+								<h:outputText value="#{e.dateNaissance}"></h:outputText>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Role</f:facet>
+								<h:outputText value="#{e.role}"></h:outputText>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Actif</f:facet>
+								<h:outputText value="#{e.actif ? 'actif' : 'inactif'}"></h:outputText>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Action</f:facet>
+								<h:commandButton value="Modifier" action="#{gestionAdminBean.displayUtilisateur(e)}"></h:commandButton>
+							</h:column>
+						</h:dataTable>
+					</h:form>
+<!-- ADMIN FORM -->	
+					<h:form>
+						<p>
+							<h:outputText value="#{gestionAdminBean.messageSuccess}"
+							style="color:green"></h:outputText>
+							<h:outputText value="#{gestionAdminBean.messageError}"
+							style="color:red"></h:outputText>
+						</p>
+						<!-- User ID -->
+						<h:inputHidden value="#{gestionAdminBean.userId}" id="hiddenField"></h:inputHidden>
+						
+						<div class="row">
+							<div class="one-half column">
+								<!-- Genre -->
+								<h:outputLabel for="genre">Genre</h:outputLabel>
+								<h:selectOneMenu id="genre" value="#{gestionAdminBean.genre}" 
+									required="true" requiredMessage="Le Genre est obligatoire">
+									<f:selectItem itemLabel="-" itemValue="" />
+									<f:selectItem itemLabel="Monsieur" itemValue="M." />
+									<f:selectItem itemLabel="Madame" itemValue="Mme" />
+									<f:selectItem itemLabel="Mademoiselle" itemValue="Mlle" />
+								</h:selectOneMenu>
+								<h:message for="genre" style="color:red"></h:message>
+								
+								<!-- Role -->
+								<h:outputLabel for="role">Role</h:outputLabel>
+								<h:selectOneMenu id="role" value="#{gestionAdminBean.role}" 
+									required="true" requiredMessage="Le Role est obligatoire">
+									<f:selectItem itemLabel="-" itemValue="" />
+									<f:selectItem itemLabel="Admin" itemValue="Admin" />
+									<f:selectItem itemLabel="Magasinier" itemValue="Magasinier" />
+								</h:selectOneMenu>
+								<h:message for="role" style="color:red"></h:message>
+								
+								<!-- Nom -->
+								<h:outputLabel for="nom">Nom</h:outputLabel>
+								<h:inputText id="nom" required="true" value="#{gestionAdminBean.nom}" 
+									requiredMessage="Le Nom est obligatoire">
+									<f:validateLength minimum="2" maximum="20" />
+								</h:inputText>
+								<h:message for="nom" style="color:red"></h:message>
+								
+								<!-- Prenom -->
+								<h:outputLabel for="prenom">Prenom</h:outputLabel>
+								<h:inputText id="prenom" required="true" value="#{gestionAdminBean.prenom}" 
+									requiredMessage="Le Prénom est obligatoire">
+									<f:validateLength minimum="2" maximum="20" />
+								</h:inputText>
+								<h:message for="prenom" style="color:red"></h:message>
+							</div>
+							<div class="one-half column">
+								<!-- Email -->
+								<h:outputLabel for="email">Email</h:outputLabel>
+								<h:inputText id="email" required="true" value="#{gestionAdminBean.email}" 
+									requiredMessage="L'email est obligatoire">
+									<f:validateLength minimum="2" maximum="20" />
+								</h:inputText>
+								<h:message for="email" style="color:red"></h:message>
+								
+								<!-- Telephone -->
+								<h:outputLabel for="telephone">Telephone</h:outputLabel>
+								<h:inputText id="telephone" required="true" value="#{gestionAdminBean.telephone}" 
+									requiredMessage="Le telephone est obligatoire">
+									<f:validateLength minimum="10" maximum="10" />
+								</h:inputText>
+								<h:message for="telephone" style="color:red"></h:message>
+								
+								<!-- Date Naissance -->
+								<h:outputLabel for="dateNaissance">Date de naissance</h:outputLabel>
+								<h:inputText id="dateNaissance" required="true" value="#{gestionAdminBean.dateNaissance}" 
+									requiredMessage="La date de naissance est obligatoire">
+									<f:validateLength minimum="10" maximum="10" />
+								</h:inputText> (dd/mm/yyyy) <h:message for="dateNaissance" style="color:red"></h:message>
+								<h:message for="dateNaissance" style="color:red"></h:message>	
+								
+								<h:outputLabel for="isActif">Utilisateur Actif</h:outputLabel>
+								<h:selectBooleanCheckbox value="#{gestionAdminBean.isActif}" id="isActif" />						
+							</div>
+						</div>
+						
+						<br/>
+						<h:commandButton class="button-primary" id="updateUtilisateur" 
+							value="Mettre à jour" action="#{gestionAdminBean.updateUtilisateur()}">
+						</h:commandButton>						
+					</h:form>
+				</f:view>
+			</ui:define>
+		</ui:composition>
+	</body>
+</html>

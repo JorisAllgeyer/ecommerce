@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -24,8 +25,8 @@ public class Adresse implements Serializable {
 	@Column(name = "id")
 	private Integer id;
 	
-	@NotEmpty
-	@Column(name ="numero", length = 4, nullable = false)
+	@NotNull
+	@Column(name ="numero", nullable = false)
 	private Integer numero;
 	
 	@NotEmpty
@@ -46,12 +47,11 @@ public class Adresse implements Serializable {
 	
 	public Adresse() {}
 
-	public Adresse(Integer numero, String rue, String ville, String codePostal, Utilisateur utilisateur) {
+	public Adresse(Integer numero, String rue, String ville, String codePostal) {
 		this.numero = numero;
 		this.rue = rue;
 		this.ville = ville;
 		this.codePostal = codePostal;
-		this.utilisateur = utilisateur;
 	}
 
 	public Integer getId() {

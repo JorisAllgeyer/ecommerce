@@ -13,6 +13,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -21,6 +23,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "utilisateur", catalog = "ecommerce_db")
+@NamedQueries({
+	@NamedQuery(name = "Utilisateur.findAll", query = "SELECT u FROM Utilisateur u"),
+	@NamedQuery(name = "Utilisateur.findAllEmployes", query = "SELECT u FROM Utilisateur u WHERE NOT  u.role = :role"),
+	@NamedQuery(name = "Utilisateur.findByEmail", query = "SELECT u FROM Utilisateur u WHERE u.email = :email")
+})
 public class Utilisateur implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -230,8 +237,8 @@ public class Utilisateur implements Serializable {
 		return "Utilisateur [id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", genre=" + genre + ", dateNaissance="
 				+ dateNaissance + ", role=" + role + ", telephone=" + telephone + ", email=" + email + ", password="
 				+ Arrays.toString(password) + ", cleCryptage=" + Arrays.toString(cleCryptage) + ", isActif=" + isActif
-				+ ", adresses=" + adresses + ", cartesPaiement=" + cartesPaiement + ", commandes=" + commandes
-				+ ", panier=" + panier + "]";
+				+ ", adresses=" + this.getAdresses() + ", cartesPaiement=" + this.getCartesPaiement() + ", commandes=" + this.getCommandes()
+				+ ", panier=" + this.getPanier() + "]";
 	}
 	
 }

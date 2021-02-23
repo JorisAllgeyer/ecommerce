@@ -1,5 +1,6 @@
 package fr.doranco.ecommerce.main;
 
+import fr.doranco.ecommerce.entity.Adresse;
 import fr.doranco.ecommerce.entity.Utilisateur;
 import fr.doranco.ecommerce.entity.enums.Genre;
 import fr.doranco.ecommerce.entity.enums.Role;
@@ -7,8 +8,10 @@ import fr.doranco.ecommerce.model.dao.UtilisateurDAO;
 import fr.doranco.ecommerce.utils.Dates;
 
 public class Main {
-
+	
 	public static void main(String[] args) {
+		
+		Adresse adresse = new Adresse(42, "Rue des Pyrénées", "Paris", "75020");
 		
 		Utilisateur user = new Utilisateur();
 		
@@ -21,11 +24,18 @@ public class Main {
 		user.setEmail("joris@joris.com");
 		user.setActif(true);
 		
+		adresse.setUtilisateur(user);
+		user.getAdresses().add(adresse);
+		
 		UtilisateurDAO userDAO = new UtilisateurDAO();
 		
 		try {
+			
 			Utilisateur userAdded = userDAO.add(user);
-			System.out.println(userAdded);
+			Integer userId = userAdded.getId();
+			
+			Utilisateur userGet = userDAO.get(Utilisateur.class, userId);
+			System.out.println(userGet);
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

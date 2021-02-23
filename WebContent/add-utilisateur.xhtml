@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></meta>
+	<title>Ecommerce</title>
+</head>
+	<body>
+		<ui:composition template="resources/template/layout.xhtml">
+			<ui:define name="content">
+				<f:view>
+					<h4>Inscription</h4>
+					<h:form>
+						<p>
+							<h:outputText value="#{utilisateurBean.messageSuccess}"
+							style="color:green"></h:outputText>
+							<h:outputText value="#{utilisateurBean.messageError}"
+							style="color:red"></h:outputText>
+						</p>
+						<!-- User ID -->
+						<h:inputHidden value="#{utilisateurBean.userId}" id="hiddenField"></h:inputHidden>
+						
+						<div class="row">
+							<div class="one-half column">
+								<!-- Genre -->
+								<h:outputLabel for="genre">Genre</h:outputLabel>
+								<h:selectOneMenu id="genre" value="#{utilisateurBean.genre}" 
+									required="true" requiredMessage="Le Genre est obligatoire">
+									<f:selectItem itemLabel="-" itemValue="" />
+									<f:selectItem itemLabel="Monsieur" itemValue="M." />
+									<f:selectItem itemLabel="Madame" itemValue="Mme" />
+									<f:selectItem itemLabel="Mademoiselle" itemValue="Mlle" />
+								</h:selectOneMenu>
+								<h:message for="genre" style="color:red"></h:message>
+								
+								<!-- Nom -->
+								<h:outputLabel for="nom">Nom</h:outputLabel>
+								<h:inputText id="nom" required="true" value="#{utilisateurBean.nom}" 
+									requiredMessage="Le Nom est obligatoire">
+									<f:validateLength minimum="2" maximum="20" />
+								</h:inputText>
+								<h:message for="nom" style="color:red"></h:message>
+								
+								<!-- Prenom -->
+								<h:outputLabel for="prenom">Prenom</h:outputLabel>
+								<h:inputText id="prenom" required="true" value="#{utilisateurBean.prenom}" 
+									requiredMessage="Le Prénom est obligatoire">
+									<f:validateLength minimum="2" maximum="20" />
+								</h:inputText>
+								<h:message for="prenom" style="color:red"></h:message>
+								
+								<!-- Email -->
+								<h:outputLabel for="email">Email</h:outputLabel>
+								<h:inputText id="email" required="true" value="#{utilisateurBean.email}" 
+									requiredMessage="L'email est obligatoire">
+									<f:validateLength minimum="2" maximum="20" />
+								</h:inputText>
+								<h:message for="email" style="color:red"></h:message>
+							</div>
+							<div class="one-half column">
+								<!-- Telephone -->
+								<h:outputLabel for="telephone">Telephone</h:outputLabel>
+								<h:inputText id="telephone" required="true" value="#{utilisateurBean.telephone}" 
+									requiredMessage="Le telephone est obligatoire">
+									<f:validateLength minimum="10" maximum="10" />
+								</h:inputText>
+								<h:message for="telephone" style="color:red"></h:message>
+								
+								<!-- Password -->
+								<h:outputLabel for="password">Password</h:outputLabel>
+								<h:inputText id="password" required="true" value="#{utilisateurBean.password}" 
+									requiredMessage="Le Mot de passe est obligatoire">
+									<f:validateLength minimum="2" maximum="20" />
+								</h:inputText>
+								<h:message for="password" style="color:red"></h:message>
+								
+								<!-- Password Confirm -->
+								<h:outputLabel for="passwordConfirm">Password confirmation</h:outputLabel>
+								<h:inputText id="passwordConfirm" required="true" value="#{utilisateurBean.passwordConfirm}" 
+									requiredMessage="Le Mot de passe est obligatoire">
+									<f:validateLength minimum="2" maximum="20" />
+								</h:inputText>
+								<h:message for="passwordConfirm" style="color:red"></h:message>
+								
+								<!-- Date Naissance -->
+								<h:outputLabel for="dateNaissance">Date de naissance</h:outputLabel>
+								<h:inputText id="dateNaissance" required="true" value="#{utilisateurBean.dateNaissance}" 
+									requiredMessage="La date de naissance est obligatoire">
+									<f:validateLength minimum="10" maximum="10" />
+								</h:inputText> (dd/mm/yyyy) <h:message for="dateNaissance" style="color:red"></h:message>
+								<h:message for="dateNaissance" style="color:red"></h:message>
+							</div>
+						</div>	
+						<br/>
+						<h:commandButton id="addUser" class="button-primary"  value="S'inscrire"
+							action="#{utilisateurBean.addUser()}">
+						</h:commandButton>
+					</h:form>
+				</f:view>
+			</ui:define>
+		</ui:composition>
+	</body>
+</html>

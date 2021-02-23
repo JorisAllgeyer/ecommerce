@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></meta>
+	<title>Ecommerce</title>
+</head>
+	<body>
+		<ui:composition template="resources/template/layout.xhtml">
+			<ui:define name="content">
+				<f:view>
+					<h4>Connexion</h4>
+					<h:form>
+						<p>
+							<h:outputText value="#{loginBean.messageSuccess}"
+							style="color:green"></h:outputText>
+							<h:outputText value="#{loginBean.messageError}"
+							style="color:red"></h:outputText>
+						</p>
+						
+						<!-- Email -->
+						<h:outputLabel for="email">Email</h:outputLabel>
+						<h:inputText id="email" required="true" value="#{loginBean.email}">
+							<f:validateLength minimum="2" maximum="20" />
+						</h:inputText>
+						<h:message for="email" style="color:red"></h:message>
+						
+						<!-- Password -->
+						<h:outputLabel for="password">Password</h:outputLabel>
+						<h:inputText id="password" required="true" value="#{loginBean.password}" 
+							requiredMessage="Le Mot de passe est obligatoire">
+							<f:validateLength minimum="2" maximum="20" />
+						</h:inputText>
+						<h:message for="password" style="color:red"></h:message>
+						
+						<br/>
+						<h:commandButton id="seConnecter" value="Se Connecter" action="#{loginBean.seConnecter()}">
+						</h:commandButton>
+					</h:form>
+				</f:view>
+			</ui:define>
+		</ui:composition>
+	</body>
+</html>
