@@ -6,7 +6,7 @@ import org.hibernate.Transaction;
 import fr.doranco.ecommerce.model.connector.HibernateConnector;
 
 
-public abstract class GenericDAO<T> implements IGenericDAO<T> {
+public abstract class AbstractGenericDAO<T> implements IGenericDAO<T> {
 
 	@Override
 	public T get(Class<T> entity, Integer id) throws Exception {

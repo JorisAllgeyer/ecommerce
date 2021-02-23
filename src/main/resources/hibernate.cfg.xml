@@ -3,9 +3,9 @@
 		"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
 		"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 	
-<!-- for Hibernate 5 and MySQL 8-->	
 <hibernate-configuration>
     <session-factory>
+    	<!-- PROPERTIES -->
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3306/ecommerce_db?useSSL=false&amp;serverTimezone=UTC</property>
         <property name="hibernate.connection.username">root</property>
@@ -16,15 +16,13 @@
         <property name="current_session_context_class">thread</property>
         <property name="hibernate.hbm2ddl.auto">create-drop</property>
         <property name="hibernate.charSet">UTF-8</property>
-		
-		
-        <mapping class="fr.doranco.ecommerce.entity.Utilisateur"></mapping>
+		<!-- MAPPING -->		
         <mapping class="fr.doranco.ecommerce.entity.Adresse"></mapping>
         <mapping class="fr.doranco.ecommerce.entity.Article"></mapping>
         <mapping class="fr.doranco.ecommerce.entity.ArticlePanier"></mapping>
         <mapping class="fr.doranco.ecommerce.entity.CartePaiement"></mapping>
         <mapping class="fr.doranco.ecommerce.entity.Commande"></mapping>
         <mapping class="fr.doranco.ecommerce.entity.LigneCommande"></mapping>
-		
+        <mapping class="fr.doranco.ecommerce.entity.Utilisateur"></mapping>
     </session-factory>
 </hibernate-configuration>

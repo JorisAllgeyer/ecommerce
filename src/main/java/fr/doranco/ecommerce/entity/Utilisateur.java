@@ -68,16 +68,16 @@ public class Utilisateur implements Serializable {
 	@Column(name ="is_actif", columnDefinition = "TINYINT", length = 1, nullable = false)
 	private boolean isActif;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "utilisateur", fetch=FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "utilisateur", fetch = FetchType.LAZY)
 	private List<Adresse> adresses;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "utilisateur", fetch=FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "utilisateur", fetch = FetchType.LAZY)
 	private List<CartePaiement> cartesPaiement;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "utilisateur", fetch=FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "utilisateur", fetch = FetchType.LAZY)
 	private List<Commande> commandes;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "utilisateur", fetch=FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "utilisateur", fetch = FetchType.LAZY)
 	private List<ArticlePanier> panier;
 
 	public Utilisateur() {

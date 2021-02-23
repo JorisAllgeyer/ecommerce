@@ -25,11 +25,7 @@ public class Main {
 		
 		try {
 			Utilisateur userAdded = userDAO.add(user);
-			
-			Integer userId = userAdded.getId();
-			Utilisateur userGet = userDAO.get(Utilisateur.class, userId);
-			
-			System.out.println(userGet);
+			System.out.println(userAdded);
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

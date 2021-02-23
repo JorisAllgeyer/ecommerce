@@ -9,3 +9,27 @@ OK cartepaiement
 OK commande
 OK lignecommande
 OK utilisateur
+
+Fonctionnalités à réaliser de bout en bout (depuis l'interface graphique jusqu'à la BDD) :
+
+  1/ Création d'un compte Utilisateur
+  2/ Connexion d'un utilisateur puis redirection en fonction du profil vers une page xhtml.
+
+Côté Fontend, 7 pages xhtml à créer :
+
+  1) index.jsp : qui redirige systématiquement vers accueil.xhtml
+  2) accueil.xhtml : qui propose deux liens de redirection, un vers add-utilisateur.xhtml et un autre vers login-utilisateur.xhtml
+  3) add-utilisateur.xhtml
+  4) login-utilisateur.xhtml
+  5) gestion-achats.xhtml
+  6) gestion-articles.xhtml
+  7) gestion-admin.xhtml
+
+Côté Backend, voici les interfaces et classes à créer :
+
+- Couche Frontend (Backing Beans) :
+UtilisateurBean
+GestionaAchatBean / GestionArticlesBean / GestionAdminBean
+
+- Couche Backend (Interfaces et classes) :
+- Couche persistance (Interfaces et classes) :
