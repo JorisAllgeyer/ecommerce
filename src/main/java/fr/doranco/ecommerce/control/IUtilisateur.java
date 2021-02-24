@@ -8,6 +8,7 @@ public interface IUtilisateur {
 // READ
 	List<Utilisateur> getUtilisateurs();
 	List<Utilisateur> getEmployes();
+	Utilisateur getUtilisateurByEmail(String email);
 	
 // WRITE
 	Utilisateur addUtilisateur(Utilisateur utilisateur, String password) throws Exception;

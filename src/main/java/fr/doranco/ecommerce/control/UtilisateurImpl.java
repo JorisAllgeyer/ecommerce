@@ -19,12 +19,17 @@ public class UtilisateurImpl implements IUtilisateur {
 		IUtilisateurDAO<Utilisateur> userDAO = new UtilisateurDAO();
 		return userDAO.getUtilisateurs();
 	}
-	
 
 	@Override
 	public List<Utilisateur> getEmployes() {
 		IUtilisateurDAO<Utilisateur> userDAO = new UtilisateurDAO();
 		return userDAO.getEmployes();
+	}
+	
+	@Override
+	public Utilisateur getUtilisateurByEmail(String email) {
+		IUtilisateurDAO<Utilisateur> userDAO = new UtilisateurDAO();
+		return userDAO.getUtilisateurByEmail(email);
 	}
 
 	@Override

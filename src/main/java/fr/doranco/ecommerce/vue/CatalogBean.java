@@ -2,16 +2,23 @@ package fr.doranco.ecommerce.vue;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 
 import fr.doranco.ecommerce.control.ArticleImpl;
+import fr.doranco.ecommerce.control.ArticlePanierImpl;
 import fr.doranco.ecommerce.control.IArticle;
+import fr.doranco.ecommerce.control.IArticlePanier;
 import fr.doranco.ecommerce.control.IUtilisateur;
 import fr.doranco.ecommerce.control.UtilisateurImpl;
 import fr.doranco.ecommerce.entity.Article;
+import fr.doranco.ecommerce.entity.ArticlePanier;
+import fr.doranco.ecommerce.entity.Utilisateur;
 import fr.doranco.ecommerce.model.dao.IUtilisateurDAO;
 
 @ManagedBean(name = "catalogBean")
@@ -38,6 +45,8 @@ public class CatalogBean implements Serializable {
 	@ManagedProperty(name = "qty", value = "")
 	private String qty;
 	
+	private static Map<Integer, Article> articleQty;
+	
 	@ManagedProperty(name = "messageColor", value = "")
 	private String messageColor;
 	
@@ -53,10 +62,29 @@ public class CatalogBean implements Serializable {
 		}
 	}
 	
-	public String addToCart(Article article) {
+	public String addToCart(Article article, String userEmail) {
+		// User
 		IUtilisateur userImpl = new UtilisateurImpl();
+		Utilisateur user = userImpl.getUtilisateurByEmail(userEmail);
 		
-		System.out.println("Ajout article: " + article);
+		// ArticlePanier
+		ArticlePanier articlePanier = new ArticlePanier(article, 1, user);
+		IArticlePanier articlePanierImpl = new ArticlePanierImpl();
+		
+		FacesContext context = FacesContext.getCurrentInstance();
+		
+		try {
+			ArticlePanier articlePanierAdded = articlePanierImpl.addArticlePanier(articlePanier);
+			
+			this.messageColor = "green";
+			context.addMessage(null, new FacesMessage("Article ajouté au panier avec succès !"));
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+			this.messageColor = "red";
+			context.addMessage(null, new FacesMessage("Problème lors de l'ajout au panier"));
+		}
+		
 		
 		// TODO Map<Article, Integer>
 		return "";
