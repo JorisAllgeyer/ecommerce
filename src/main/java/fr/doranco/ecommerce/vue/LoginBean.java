@@ -2,9 +2,11 @@ package fr.doranco.ecommerce.vue;
 
 import java.io.Serializable;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import fr.doranco.ecommerce.control.IUtilisateur;
 import fr.doranco.ecommerce.control.UtilisateurImpl;
@@ -23,21 +25,8 @@ public class LoginBean implements Serializable {
 	@ManagedProperty(name = "password", value = "")
 	private String password;
 	
-	@ManagedProperty(name = "messageSuccess", value = "")
-	private static String messageSuccess;
-	
-	@ManagedProperty(name = "messageError", value = "")
-	private static String messageError;
-	
-	static {
-		messageSuccess = "";
-		messageError = "";
-	}
-	
-	private void initializeMessages() {
-		messageSuccess = "";
-		messageError = "";
-	}
+	@ManagedProperty(name = "messageColor", value = "")
+	private String messageColor;
 	
 	public void initializeFields() {
 		this.email = "";
@@ -45,25 +34,27 @@ public class LoginBean implements Serializable {
 	}
 	
 	public LoginBean() {
-		initializeMessages();
 		initializeFields();
 	}
 
 	public String seConnecter() {
-		initializeMessages();
+		
+		FacesContext context = FacesContext.getCurrentInstance();
 		
 		IUtilisateur userImpl = new UtilisateurImpl();
 		Utilisateur user = userImpl.connect(email, password);
 		
 		if (user != null) {
-			messageSuccess = "Utilisateur connecté avec succes";
+			this.messageColor = "green";
+			context.addMessage(null, new FacesMessage("Utilisateur connecté avec succes"));
 		} else {
-			messageError = "Login et/ou Mot de passe incorrect(s)";
+			this.messageColor = "red";
+			context.addMessage(null, new FacesMessage("Login et/ou Mot de passe incorrect(s)"));
 			return "";
 		}
 		
 		if (user.getRole().equals(Role.ADMIN.getRole())) return "gestion-admin";
-		if (user.getRole().equals(Role.MAGASINIER.getRole())) return "gestion-article";
+		if (user.getRole().equals(Role.MAGASINIER.getRole())) return "gestion-articles";
 		if (user.getRole().equals(Role.CLIENT.getRole())) return "catalog";
 		return "";
 	}
@@ -84,19 +75,12 @@ public class LoginBean implements Serializable {
 		this.password = password;
 	}
 
-	public String getMessageSuccess() {
-		return messageSuccess;
+	public String getMessageColor() {
+		return messageColor;
 	}
 
-	public void setMessageSuccess(String messageSuccess) {
-		LoginBean.messageSuccess = messageSuccess;
+	public void setMessageColor(String messageColor) {
+		this.messageColor = messageColor;
 	}
 
-	public String getMessageError() {
-		return messageError;
-	}
-
-	public void setMessageError(String messageError) {
-		LoginBean.messageError = messageError;
-	}
 }

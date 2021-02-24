@@ -1,13 +1,16 @@
 package fr.doranco.ecommerce.vue;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 
-import org.hibernate.exception.ConstraintViolationException;
-
+import fr.doranco.ecommerce.entity.Adresse;
 import fr.doranco.ecommerce.entity.Utilisateur;
 import fr.doranco.ecommerce.entity.enums.Role;
 import fr.doranco.ecommerce.model.dao.DuplicateEntryExcpetion;
@@ -16,7 +19,7 @@ import fr.doranco.ecommerce.control.IUtilisateur;
 import fr.doranco.ecommerce.control.UtilisateurImpl;
 
 @ManagedBean(name = "utilisateurBean")
-@SessionScoped
+@RequestScoped
 public class UtilisateurBean implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -51,21 +54,23 @@ public class UtilisateurBean implements Serializable {
 	@ManagedProperty(name = "passwordConfirm", value = "")
 	private String passwordConfirm;
 	
-	@ManagedProperty(name = "messageSuccess", value = "")
-	private static String messageSuccess;
+	@ManagedProperty(name = "numero", value = "")
+	private String numero;
 	
-	@ManagedProperty(name = "messageError", value = "")
-	private static String messageError;
+	@ManagedProperty(name = "rue", value = "")
+	private String rue;
 
-	static {
-		messageSuccess = "";
-		messageError = "";
-	}
+	@ManagedProperty(name = "ville", value = "")
+	private String ville;
 	
-	private void initializeMessages() {
-		messageSuccess = "";
-		messageError = "";
-	}
+	@ManagedProperty(name = "codePostal", value = "")
+	private String codePostal;
+	
+	@ManagedProperty(name = "adresses", value = "")
+	private static List<Adresse> adresses; 
+	
+	@ManagedProperty(name = "messageColor", value = "")
+	private String messageColor;
 	
 	public void initializeFields() {
 		this.userId  = "";
@@ -80,17 +85,22 @@ public class UtilisateurBean implements Serializable {
 		this.passwordConfirm = "";
 	}
 	
+	static {
+		adresses = new ArrayList<Adresse>();		
+	}
+	
 	public UtilisateurBean() {
-		initializeMessages();
 		initializeFields();
 	}
 	
 // Methods	
 	public String addUser() {
-		initializeMessages();
+		FacesContext context = FacesContext.getCurrentInstance();
 		
 		if (!this.password.equals(this.passwordConfirm)) {
-			messageError = "Erreur ! les deux mots de passe ne correspondent pas !";
+			this.messageColor = "red";
+			context.addMessage(null, 
+				new FacesMessage("Erreur ! les deux mots de passe ne correspondent pas !"));
 			return "";
 		}
 		
@@ -104,24 +114,44 @@ public class UtilisateurBean implements Serializable {
 		user.setRole(Role.CLIENT.getRole());
 		user.setActif(true);
 		
+		// Adresses
+		adresses.forEach(adresse -> adresse.setUtilisateur(user));
+		user.setAdresses(adresses);
+		
 		IUtilisateur userImpl = new UtilisateurImpl();
 		
 		try {
 			Utilisateur userCreated = userImpl.addUtilisateur(user, password);
 			this.userId = userCreated.getId().toString();
-			messageSuccess = "Utilisateur crée avec succès !";
+			
+			this.messageColor = "green";
+			context.addMessage(null, 
+				new FacesMessage("Utilisateur crée avec succès !"));
 			
 		} catch (DuplicateEntryExcpetion e) {
-			
-			messageError = "Cet email existe déjà dans notre base, Veuillez-vous connecter.";
+			this.messageColor = "red";
+			context.addMessage(null, 
+				new FacesMessage("Cet email existe déjà dans notre base, Veuillez-vous connecter."));
 			return "";
 		} catch (Exception e) {
-			
-			messageError = "Problème lors de l'ajout d'un utilisateur";
+			context.addMessage(null, 
+					new FacesMessage("Problème lors de l'ajout d'un utilisateur"));
 			return "";
 		}
 		
 		return "login-utilisateur?faces-redirect=true&success=true";
+	}
+	
+	public String addAdresse() {
+		Adresse adresse = new Adresse(Integer.parseInt(numero), rue, ville, codePostal);
+		adresses.add(adresse);
+		return "";
+	}
+	
+	public String removeAdresse(Adresse adresse) {
+		System.out.println(adresse);
+		adresses.remove(adresse);
+		return "";
 	}
 
 // Fields
@@ -205,21 +235,56 @@ public class UtilisateurBean implements Serializable {
 		this.passwordConfirm = passwordConfirm;
 	}
 	
+// Adresse
+	
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+
+	public String getRue() {
+		return rue;
+	}
+
+	public void setRue(String rue) {
+		this.rue = rue;
+	}
+
+	public String getVille() {
+		return ville;
+	}
+
+	public void setVille(String ville) {
+		this.ville = ville;
+	}
+
+	public String getCodePostal() {
+		return codePostal;
+	}
+
+	public void setCodePostal(String codePostal) {
+		this.codePostal = codePostal;
+	}
+
 // Messages
-	public String getMessageSuccess() {
-		return messageSuccess;
+	
+	public List<Adresse> getAdresses() {
+		return adresses;
 	}
 
-	public void setMessageSuccess(String messageSuccess) {
-		UtilisateurBean.messageSuccess = messageSuccess;
+	public void setAdresses(List<Adresse> adresses) {
+		UtilisateurBean.adresses = adresses;
 	}
 
-	public String getMessageError() {
-		return messageError;
+	public String getMessageColor() {
+		return messageColor;
 	}
 
-	public void setMessageError(String messageError) {
-		UtilisateurBean.messageError = messageError;
+	public void setMessageColor(String messageColor) {
+		this.messageColor = messageColor;
 	}
 
 }

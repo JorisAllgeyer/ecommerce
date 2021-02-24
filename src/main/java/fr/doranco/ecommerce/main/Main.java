@@ -11,36 +11,14 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		Adresse adresse = new Adresse(42, "Rue des Pyrénées", "Paris", "75020");
+		Adresse adresse = new Adresse();
 		
-		Utilisateur user = new Utilisateur();
+		adresse.setNumero(Integer.parseInt("42"));
+		adresse.setRue("Rue des pyrénées");
+		adresse.setVille("Paris");
+		adresse.setCodePostal("codePostal");
 		
-		user.setNom("Allgeyer");
-		user.setPrenom("Joris");
-		user.setGenre(Genre.MONSIEUR.getGenre());
-		user.setDateNaissance(Dates.stringToDate("20/10/1993"));
-		user.setRole(Role.ADMIN.getRole());
-		user.setTelephone("0606060606");
-		user.setEmail("joris@joris.com");
-		user.setActif(true);
-		
-		adresse.setUtilisateur(user);
-		user.getAdresses().add(adresse);
-		
-		UtilisateurDAO userDAO = new UtilisateurDAO();
-		
-		try {
-			
-			Utilisateur userAdded = userDAO.add(user);
-			Integer userId = userAdded.getId();
-			
-			Utilisateur userGet = userDAO.get(Utilisateur.class, userId);
-			System.out.println(userGet);
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		System.out.println(adresse);
 	}
 
 }

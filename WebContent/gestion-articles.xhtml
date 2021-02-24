@@ -15,7 +15,108 @@
 		<ui:composition template="resources/template/layout.xhtml">
 			<ui:define name="content">
 				<f:view>
-					<p>gestion-articles</p>
+					<h4>Administartion Articles</h4>
+					<h:messages style="color:#{gestionArticlesBean.messageColor}"></h:messages>
+<!-- FORMULAIRE -->
+					<h:form>
+						<!-- Article ID -->
+						<h:inputHidden value="#{gestionArticlesBean.articleId}" id="hiddenField"></h:inputHidden>
+						
+						<div class="row">
+							<div class="one-half column">
+								<!-- Nom -->
+								<h:outputLabel for="nom">Nom</h:outputLabel>
+								<h:inputText id="nom" required="true" value="#{gestionArticlesBean.nom}" 
+									requiredMessage="Le Nom est obligatoire">
+									<f:validateLength minimum="2" maximum="20" />
+								</h:inputText>
+								<h:message for="nom" style="color:red"></h:message>
+								
+								<!-- Description -->
+								<h:outputLabel for="description">Description</h:outputLabel>
+								<h:inputTextarea id="description" row="20" col="20" 
+									required="true" value="#{gestionArticlesBean.description}" 
+									requiredMessage="La Description est obligatoire">
+									<f:validateLength minimum="2" maximum="500" />
+								</h:inputTextarea>
+								<h:message for="description" style="color:red"></h:message>
+							
+							</div>
+							<div class="one-half column">
+								<!-- Prix -->
+								<h:outputLabel for="prix">Prix</h:outputLabel>
+								<h:inputText id="prix" required="true" value="#{gestionArticlesBean.prix}" 
+									requiredMessage="Le prix est obligatoire">
+									<f:validateLength minimum="2" maximum="20" />
+								</h:inputText>
+								<h:message for="prix" style="color:red"></h:message>
+								
+								<!-- Remise -->
+								<h:outputLabel for="remise">Remise</h:outputLabel>
+								<h:inputText id="remise" required="true" value="#{gestionArticlesBean.remise}" 
+									requiredMessage="La remise est obligatoire">
+									<f:validateLength minimum="1" maximum="2" />
+								</h:inputText>
+								<h:message for="remise" style="color:red"></h:message>
+								
+								<!-- Stock -->
+								<h:outputLabel for="stock">Stock</h:outputLabel>
+								<h:inputText id="stock" required="true" value="#{gestionArticlesBean.stock}" 
+									requiredMessage="Le stock est obligatoire">
+									<f:validateLength minimum="2" maximum="20" />
+								</h:inputText>
+								<h:message for="stock" style="color:red"></h:message>							
+							</div>
+						</div>
+						
+						<div style="display:#{(gestionArticlesBean.updateAction)?'none':'block'}">
+							<h:commandButton class="button-primary" id="addArticle" 
+								value="Ajouter" action="#{gestionArticlesBean.addArticle()}">
+							</h:commandButton>						
+						</div>
+						<div style="display:#{(gestionArticlesBean.updateAction)?'block':'none'}">
+							<h:commandButton class="button-primary" id="updateArticle" 
+								value="Mettre à jour" action="#{gestionArticlesBean.updateArticle()}">
+							</h:commandButton>
+						</div>
+					</h:form>
+<!-- LISTE -->
+					<h:form>
+						<h:dataTable value="#{gestionArticlesBean.getListArticles()}" var ="a">
+							<h:column>
+								<f:facet name="header">ID</f:facet>
+								<h:outputText value="#{a.id}"></h:outputText>
+							</h:column>
+							<h:column>
+								<f:facet name="header">nom</f:facet>
+								<h:outputText value="#{a.nom}"></h:outputText>
+							</h:column>
+							<h:column>
+								<f:facet name="header">description</f:facet>
+								<h:outputText value="#{a.description}"></h:outputText>
+							</h:column>
+							<h:column>
+								<f:facet name="header">prix</f:facet>
+								<h:outputText value="#{a.prix}"></h:outputText>
+							</h:column>
+							<h:column>
+								<f:facet name="header">remise</f:facet>
+								<h:outputText value="#{a.remise}"></h:outputText>
+							</h:column>
+							<h:column>
+								<f:facet name="header">stock</f:facet>
+								<h:outputText value="#{a.stock}"></h:outputText>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Action</f:facet>
+								<h:commandButton value="Modifier" action="#{gestionArticlesBean.displayArticle(a)}"></h:commandButton>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Action</f:facet>
+								<h:commandButton value="Supprimer" action="#{gestionArticlesBean.removeArticle(a)}"></h:commandButton>
+							</h:column>
+						</h:dataTable>
+					</h:form>
 				</f:view>
 			</ui:define>
 		</ui:composition>

@@ -3,18 +3,19 @@ package fr.doranco.ecommerce.vue;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 
 import fr.doranco.ecommerce.control.IUtilisateur;
 import fr.doranco.ecommerce.control.UtilisateurImpl;
 import fr.doranco.ecommerce.entity.Utilisateur;
-import fr.doranco.ecommerce.entity.enums.Role;
 import fr.doranco.ecommerce.utils.Dates;
 
 @ManagedBean(name = "gestionAdminBean")
-@SessionScoped
+@RequestScoped
 public class GestionAdminBean implements Serializable  {
 
 	private static final long serialVersionUID = 1L;
@@ -45,12 +46,9 @@ public class GestionAdminBean implements Serializable  {
 	
 	@ManagedProperty(name = "isActif", value = "")
 	private Boolean isActif;
-	
-	@ManagedProperty(name = "messageSuccess", value = "")
-	private static String messageSuccess;
-	
-	@ManagedProperty(name = "messageError", value = "")
-	private static String messageError;
+
+	@ManagedProperty(name = "messageColor", value = "")
+	private String messageColor;
 	
 	@ManagedProperty(name = "updateAction", value = "false")
 	private String updateAction;
@@ -58,15 +56,6 @@ public class GestionAdminBean implements Serializable  {
 	private byte[] motDePasseCrypte;
 	private byte[] cleCryptage;
 
-	static {
-		messageSuccess = "";
-		messageError = "";
-	}
-	
-	private void initializeMessages() {
-		messageSuccess = "";
-		messageError = "";
-	}
 	
 	private void initializeFields() {
 	    this.nom = "";
@@ -81,20 +70,18 @@ public class GestionAdminBean implements Serializable  {
 	}
 	
 	public GestionAdminBean() {
-		initializeMessages();
 		initializeFields();
 	}
 	
 	public List<Utilisateur> getListeEmployes() {
-		initializeMessages();
-		
 		updateAction = "false";
+		
 		IUtilisateur userImpl = new UtilisateurImpl();
 		return userImpl.getEmployes();
+		// return userImpl.getUtilisateurs();
 	}
 	
 	public String displayUtilisateur(Utilisateur user) {
-		initializeMessages();
 		updateAction = "true";
 		
 		this.userId = user.getId().toString();
@@ -113,7 +100,8 @@ public class GestionAdminBean implements Serializable  {
 	}
 	
 	public String updateUtilisateur() {
-		initializeMessages();
+		
+		FacesContext context = FacesContext.getCurrentInstance();
 		
 		Utilisateur user = new Utilisateur();
 		user.setId(Integer.parseInt(userId));
@@ -132,9 +120,11 @@ public class GestionAdminBean implements Serializable  {
 		
 		try {
 			userImpl.updateUtilisateur(user);
-			messageSuccess = "Utilisateur modifié avec succès !";
+			this.messageColor = "green";
+			context.addMessage(null, new FacesMessage("Utilisateur modifié avec succès !"));
 		} catch (Exception e) {
-			messageError = "Problème lors de la modification";
+			this.messageColor = "red";
+			context.addMessage(null, new FacesMessage("Problème lors de la modification"));
 		}
 		
 		return "";
@@ -228,22 +218,14 @@ public class GestionAdminBean implements Serializable  {
 		this.cleCryptage = cleCryptage;
 	}
 
-	public String getMessageSuccess() {
-		return messageSuccess;
+	public String getMessageColor() {
+		return messageColor;
 	}
 
-	public void setMessageSuccess(String messageSuccess) {
-		GestionAdminBean.messageSuccess = messageSuccess;
+	public void setMessageColor(String messageColor) {
+		this.messageColor = messageColor;
 	}
 
-	public String getMessageError() {
-		return messageError;
-	}
-
-	public void setMessageError(String messageError) {
-		GestionAdminBean.messageError = messageError;
-	}
-	
 	public String getUpdateAction() {
 		return updateAction;
 	}

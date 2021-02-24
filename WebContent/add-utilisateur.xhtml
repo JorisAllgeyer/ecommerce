@@ -16,13 +16,10 @@
 			<ui:define name="content">
 				<f:view>
 					<h4>Inscription</h4>
+					<hr/>
+					<h5>Informations personnelles</h5>
+					
 					<h:form>
-						<p>
-							<h:outputText value="#{utilisateurBean.messageSuccess}"
-							style="color:green"></h:outputText>
-							<h:outputText value="#{utilisateurBean.messageError}"
-							style="color:red"></h:outputText>
-						</p>
 						<!-- User ID -->
 						<h:inputHidden value="#{utilisateurBean.userId}" id="hiddenField"></h:inputHidden>
 						
@@ -93,14 +90,81 @@
 								<h:inputText id="dateNaissance" required="true" value="#{utilisateurBean.dateNaissance}" 
 									requiredMessage="La date de naissance est obligatoire">
 									<f:validateLength minimum="10" maximum="10" />
-								</h:inputText> (dd/mm/yyyy) <h:message for="dateNaissance" style="color:red"></h:message>
+								</h:inputText> (dd/mm/yyyy)
 								<h:message for="dateNaissance" style="color:red"></h:message>
 							</div>
-						</div>	
+						</div>
 						<br/>
 						<h:commandButton id="addUser" class="button-primary"  value="S'inscrire"
 							action="#{utilisateurBean.addUser()}">
 						</h:commandButton>
+					</h:form>
+					
+					<h:form>
+						<h5>Adresses</h5>
+						
+						<div class="row">
+							<div class="two columns">
+								<h:outputLabel for="numero">Numéro</h:outputLabel>
+								<h:inputText id="numero" value="#{utilisateurBean.numero}" 
+									required="true" requiredMessage="Le numéro de rue est obligatoire">
+								</h:inputText>
+								<br/><h:message for="numero" style="color:red"></h:message>							
+							</div>
+							<div class="three columns">
+								<h:outputLabel for="rue">Rue</h:outputLabel>
+								<h:inputText id="rue" value="#{utilisateurBean.rue}" 
+									required="true" requiredMessage="La rue est obligatoire">
+								</h:inputText>
+								<br/><h:message for="rue" style="color:red"></h:message>							
+							</div>
+							<div class="three columns">
+								<h:outputLabel for="ville">Ville</h:outputLabel>
+								<h:inputText id="ville" value="#{utilisateurBean.ville}" 
+									required="true" requiredMessage="La ville est obligatoire">
+								</h:inputText>
+								<br/><h:message for="ville" style="color:red"></h:message>		
+							</div>
+							<div class="two columns">
+								<h:outputLabel for="codePostal">Code Postal</h:outputLabel>
+								<h:inputText id="codePostal" value="#{utilisateurBean.codePostal}" 
+									required="true" requiredMessage="Le code postal est obligatoire">
+								</h:inputText>
+								<br/><h:message for="codePostal" style="color:red"></h:message>		
+							</div>
+							
+							<div class="two columns"
+								style="display:#{(utilisateurBean.getAdresses().size() > 2)?'none':'block'}">
+								<h:outputLabel for="addAdresse">Ajouter</h:outputLabel>					
+								<h:commandButton id="addAdresse" value="+" class="button-primary"
+									action="#{utilisateurBean.addAdresse()}">
+								</h:commandButton>
+							</div>
+						</div>
+						
+						<h:dataTable value="#{utilisateurBean.getAdresses()}" var ="a" 
+							rendered="#{utilisateurBean.getAdresses().isEmpty() ? 'false' : 'true'}">
+							<h:column>
+								<f:facet name="header">Numéro</f:facet>
+								<h:outputText value="#{a.numero}"></h:outputText>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Rue</f:facet>
+								<h:outputText value="#{a.rue}"></h:outputText>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Ville</f:facet>
+								<h:outputText value="#{a.ville}"></h:outputText>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Code Postal</f:facet>
+								<h:outputText value="#{a.codePostal}"></h:outputText>
+							</h:column>
+							<h:column>
+								<f:facet name="header">Action</f:facet>
+								<h:commandButton value="Retirer" action="#{utilisateurBean.removeAdresse(a)}"></h:commandButton>
+							</h:column>
+						</h:dataTable>
 					</h:form>
 				</f:view>
 			</ui:define>

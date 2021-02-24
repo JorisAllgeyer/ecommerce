@@ -105,7 +105,7 @@ public class Adresse implements Serializable {
 	@Override
 	public String toString() {
 		return "Adresse [id=" + id + ", numero=" + numero + ", rue=" + rue + ", ville=" + ville + ", codePostal="
-				+ codePostal + ", utilisateur_id=" + utilisateur.getId() + "]";
+				+ codePostal + "]";
 	}
 
 }
