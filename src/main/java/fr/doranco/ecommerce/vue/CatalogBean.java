@@ -48,10 +48,11 @@ public class CatalogBean implements Serializable {
 	@ManagedProperty(name = "messageColor", value = "")
 	private String messageColor;
 	
-	private Map<Integer, Integer> articleQty;
+	private static Map<Integer, Integer> articleQty;
+	static { articleQty = new HashMap<Integer, Integer>(); }
 	
 	public CatalogBean() {
-		this.articleQty = new HashMap<Integer, Integer>();
+		
 	}
 	
 	public List<Article> getListArticles() {
@@ -67,14 +68,11 @@ public class CatalogBean implements Serializable {
 	}
 	
 	public void changeQty(String id) {
-		System.out.println("changeQty -> " + id + ":" + qty);
-		articleQty.put(Integer.parseInt(id), Integer.parseInt(qty));
-		
-		System.out.println("articleQty -> " + articleQty);
+		articleQty.put(Integer.parseInt(id), Integer.parseInt(qty));	
 	}
 	
 	public String addToCart(Article article, String userEmail) {
-		
+		FacesContext context = FacesContext.getCurrentInstance();
 		// User
 		IUtilisateur userImpl = new UtilisateurImpl();
 		Utilisateur user = userImpl.getUtilisateurByEmail(userEmail);
@@ -87,22 +85,16 @@ public class CatalogBean implements Serializable {
 		ArticlePanier articlePanier = new ArticlePanier(article, currentArticleQty, user);
 		IArticlePanier articlePanierImpl = new ArticlePanierImpl();
 		
-		FacesContext context = FacesContext.getCurrentInstance();
-		
 		try {
-			ArticlePanier articlePanierAdded = articlePanierImpl.addArticlePanier(articlePanier);
-			System.out.println("articlePanierAdded -> " + articlePanierAdded);
+			articlePanierImpl.addArticlePanier(articlePanier);
 			this.messageColor = "green";
 			context.addMessage(null, new FacesMessage("Article ajouté au panier avec succès !"));
 		} catch (Exception e) {
 			e.printStackTrace();
-			
 			this.messageColor = "red";
 			context.addMessage(null, new FacesMessage("Problème lors de l'ajout au panier"));
 		}
 		
-		
-		// TODO Map<Article, Integer>
 		return "";
 	}
 
@@ -152,14 +144,6 @@ public class CatalogBean implements Serializable {
 
 	public void setQty(String qty) {
 		this.qty = qty;
-	}
-
-	public Map<Integer, Integer> getArticleQty() {
-		return articleQty;
-	}
-
-	public void setArticleQty(Map<Integer, Integer> articleQty) {
-		this.articleQty = articleQty;
 	}
 
 	public String getMessageColor() {

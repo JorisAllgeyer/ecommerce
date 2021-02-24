@@ -52,4 +52,13 @@ Set<String, List<ArticlePanier>> getUtilisateursAvecPanierNonVide()
 @Produces(MediaType.APPLICATION_JSON + CHARSET)
  Set<String, List<ArticlePanier>> getUtilisateursAvecPanierNonVide()
 
+ Il faudra ensuite faire la page gestion-achats.xhtml :
+Lorsqu'un utilisateur se connecte et il a le profil "Magasinier" alors il est automatiquement redirigé vers la page gestion-achats.xhtml
+Dans cette page, il va pouvoir ajouter des articles à la base de données.
+
+Ensuite, lorsqu'un client se connecte et il a donc le profil "Client", il sera redirigé vers la page achats.xhtml
+Dans cette page il verra la liste des articles disponibles, et devant chaque article il y a une case à cocher. Une fois il coche une ou plusieurs cases et il clique sur ajouter au panier, ce dernier verra son nombre mis à jour.
+Ensuite quand il clique sur le bouton "valider le panier" il sera redirigé vers la page "commande.xhtml" qui affiche le résumé des articles et avec le bouton "Valider la commande".
+
+
 
