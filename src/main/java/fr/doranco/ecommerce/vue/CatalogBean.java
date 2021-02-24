@@ -1,6 +1,7 @@
 package fr.doranco.ecommerce.vue;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,6 @@ import fr.doranco.ecommerce.control.UtilisateurImpl;
 import fr.doranco.ecommerce.entity.Article;
 import fr.doranco.ecommerce.entity.ArticlePanier;
 import fr.doranco.ecommerce.entity.Utilisateur;
-import fr.doranco.ecommerce.model.dao.IUtilisateurDAO;
 
 @ManagedBean(name = "catalogBean")
 @RequestScoped
@@ -44,11 +44,15 @@ public class CatalogBean implements Serializable {
 
 	@ManagedProperty(name = "qty", value = "")
 	private String qty;
-	
-	private static Map<Integer, Article> articleQty;
-	
+		
 	@ManagedProperty(name = "messageColor", value = "")
 	private String messageColor;
+	
+	private Map<Integer, Integer> articleQty;
+	
+	public CatalogBean() {
+		this.articleQty = new HashMap<Integer, Integer>();
+	}
 	
 	public List<Article> getListArticles() {
 
@@ -62,20 +66,32 @@ public class CatalogBean implements Serializable {
 		}
 	}
 	
+	public void changeQty(String id) {
+		System.out.println("changeQty -> " + id + ":" + qty);
+		articleQty.put(Integer.parseInt(id), Integer.parseInt(qty));
+		
+		System.out.println("articleQty -> " + articleQty);
+	}
+	
 	public String addToCart(Article article, String userEmail) {
+		
 		// User
 		IUtilisateur userImpl = new UtilisateurImpl();
 		Utilisateur user = userImpl.getUtilisateurByEmail(userEmail);
 		
 		// ArticlePanier
-		ArticlePanier articlePanier = new ArticlePanier(article, 1, user);
+		Integer currentArticleQty = articleQty.get(article.getId()) != null 
+			? articleQty.get(article.getId())
+			: 1;
+		
+		ArticlePanier articlePanier = new ArticlePanier(article, currentArticleQty, user);
 		IArticlePanier articlePanierImpl = new ArticlePanierImpl();
 		
 		FacesContext context = FacesContext.getCurrentInstance();
 		
 		try {
 			ArticlePanier articlePanierAdded = articlePanierImpl.addArticlePanier(articlePanier);
-			
+			System.out.println("articlePanierAdded -> " + articlePanierAdded);
 			this.messageColor = "green";
 			context.addMessage(null, new FacesMessage("Article ajouté au panier avec succès !"));
 		} catch (Exception e) {
@@ -136,6 +152,14 @@ public class CatalogBean implements Serializable {
 
 	public void setQty(String qty) {
 		this.qty = qty;
+	}
+
+	public Map<Integer, Integer> getArticleQty() {
+		return articleQty;
+	}
+
+	public void setArticleQty(Map<Integer, Integer> articleQty) {
+		this.articleQty = articleQty;
 	}
 
 	public String getMessageColor() {

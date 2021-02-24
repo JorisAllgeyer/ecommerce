@@ -269,16 +269,16 @@ public class UtilisateurBean implements Serializable {
 		this.codePostal = codePostal;
 	}
 
-// Messages
-	
 	public List<Adresse> getAdresses() {
 		return adresses;
 	}
-
+	
 	public void setAdresses(List<Adresse> adresses) {
 		UtilisateurBean.adresses = adresses;
 	}
 
+// Messages
+	
 	public String getMessageColor() {
 		return messageColor;
 	}
