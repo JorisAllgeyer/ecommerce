@@ -13,7 +13,7 @@ import javax.faces.context.FacesContext;
 import fr.doranco.ecommerce.entity.Adresse;
 import fr.doranco.ecommerce.entity.Utilisateur;
 import fr.doranco.ecommerce.entity.enums.Role;
-import fr.doranco.ecommerce.model.dao.DuplicateEntryExcpetion;
+import fr.doranco.ecommerce.model.dao.exceptions.DuplicateEntryExcpetion;
 import fr.doranco.ecommerce.utils.Dates;
 import fr.doranco.ecommerce.control.IUtilisateur;
 import fr.doranco.ecommerce.control.UtilisateurImpl;

@@ -1,4 +1,4 @@
-package fr.doranco.ecommerce.model.dao;
+package fr.doranco.ecommerce.model.dao.exceptions;
 
 public class DuplicateEntryExcpetion extends Exception {
 

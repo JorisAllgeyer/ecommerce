@@ -5,6 +5,7 @@ import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
 
 import fr.doranco.ecommerce.model.connector.HibernateConnector;
+import fr.doranco.ecommerce.model.dao.exceptions.DuplicateEntryExcpetion;
 
 public abstract class AbstractGenericDAO<T> implements IGenericDAO<T> {
 	

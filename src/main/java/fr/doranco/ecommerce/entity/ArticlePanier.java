@@ -9,12 +9,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "article_panier", catalog = "ecommerce_db")
+@NamedQueries({
+	@NamedQuery(name = "ArticlePanier.findAll", query = "SELECT ap FROM ArticlePanier ap"),
+	@NamedQuery(name = "ArticlePanier.findByUser", query = "SELECT ap FROM ArticlePanier ap WHERE ap.utilisateur = :user"),
+	
+	@NamedQuery(name = "ArticlePanier.findByUserAndArticle", 
+		query = "SELECT ap FROM ArticlePanier ap WHERE ap.utilisateur = :user AND ap.article = :article")
+	
+})
 public class ArticlePanier implements Serializable  {
 	
 	private static final long serialVersionUID = 1L;

@@ -15,19 +15,19 @@ import fr.doranco.ecommerce.cryptage.AlgoCryptage;
 public class UtilisateurImpl implements IUtilisateur {
 	
 	@Override
-	public List<Utilisateur> getUtilisateurs() {
+	public List<Utilisateur> getUtilisateurs() throws Exception {
 		IUtilisateurDAO<Utilisateur> userDAO = new UtilisateurDAO();
 		return userDAO.getUtilisateurs();
 	}
 
 	@Override
-	public List<Utilisateur> getEmployes() {
+	public List<Utilisateur> getEmployes() throws Exception {
 		IUtilisateurDAO<Utilisateur> userDAO = new UtilisateurDAO();
 		return userDAO.getEmployes();
 	}
 	
 	@Override
-	public Utilisateur getUtilisateurByEmail(String email) {
+	public Utilisateur getUtilisateurByEmail(String email) throws Exception {
 		IUtilisateurDAO<Utilisateur> userDAO = new UtilisateurDAO();
 		return userDAO.getUtilisateurByEmail(email);
 	}

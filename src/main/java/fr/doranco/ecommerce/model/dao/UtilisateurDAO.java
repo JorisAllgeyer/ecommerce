@@ -12,39 +12,39 @@ public class UtilisateurDAO
 	extends AbstractGenericDAO<Utilisateur> 
 	implements IUtilisateurDAO<Utilisateur> {
 	
+	private final Session session;
+	
+	public UtilisateurDAO() {
+		session = HibernateConnector.getInstance().getSession();
+	}
+	
 	@Override
-	public List<Utilisateur> getUtilisateurs() {
-		Session session = HibernateConnector.getInstance().getSession();
+	public List<Utilisateur> getUtilisateurs() throws Exception {
 		
 		try {
 			Query query = session.createNamedQuery("Utilisateur.findAll");
 			return (List<Utilisateur>) query.list();
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (session != null) session.close();
-		}
-		return null;
+			throw new Exception(e);
+		} 
 	}
 	
 	@Override
-	public List<Utilisateur> getEmployes() {
-		Session session = HibernateConnector.getInstance().getSession();
+	public List<Utilisateur> getEmployes() throws Exception  {
+	
 		try {
 			Query query = session.createNamedQuery("Utilisateur.findAllEmployes");
 			query.setParameter("role", "Client");
 			return (List<Utilisateur>) query.list();
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (session != null) session.close();
-		}
-		return null;
+			throw new Exception(e);
+		} 
 	}	
 
 	@Override
-	public Utilisateur getUtilisateurByEmail(String email) {
-		Session session = HibernateConnector.getInstance().getSession();
+	public Utilisateur getUtilisateurByEmail(String email) throws Exception  {
 		
 		try {
 			Query query = session.createNamedQuery("Utilisateur.findByEmail");
@@ -52,9 +52,7 @@ public class UtilisateurDAO
 			return (Utilisateur) query.getSingleResult();			
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (session != null) session.close();
+			throw new Exception(e);
 		}
-		return null;
 	}
 }

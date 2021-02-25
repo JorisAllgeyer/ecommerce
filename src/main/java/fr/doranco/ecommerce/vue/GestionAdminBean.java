@@ -77,7 +77,13 @@ public class GestionAdminBean implements Serializable  {
 		updateAction = "false";
 		
 		IUtilisateur userImpl = new UtilisateurImpl();
-		return userImpl.getEmployes();
+		try {
+			return userImpl.getEmployes();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 		// return userImpl.getUtilisateurs();
 	}
 	
