@@ -53,24 +53,12 @@ public class GestionAdminBean implements Serializable  {
 	@ManagedProperty(name = "updateAction", value = "false")
 	private String updateAction;
 	
-	private byte[] motDePasseCrypte;
-	private byte[] cleCryptage;
-
+	private static byte[] motDePasseCrypte;
+	private static byte[] cleCryptage;
 	
-	private void initializeFields() {
-	    this.nom = "";
-	    this.prenom = "";
-	    this.genre = "";
-	    this.email = "";
-	    this.motDePasseCrypte = null;
-	    this.cleCryptage = null;
-	    this.telephone = "";
-	    this.dateNaissance = "";
-	    this.role = "";
-	}
-	
-	public GestionAdminBean() {
-		initializeFields();
+	static {
+		motDePasseCrypte = null;
+		cleCryptage = null;
 	}
 	
 	public List<Utilisateur> getListeEmployes() {
@@ -95,12 +83,16 @@ public class GestionAdminBean implements Serializable  {
 	    this.prenom = user.getPrenom();
 	    this.genre = user.getGenre();
 	    this.email = user.getEmail();
-	    this.motDePasseCrypte = user.getPassword();
-	    this.cleCryptage = user.getCleCryptage();
 	    this.telephone = user.getTelephone();
 	    this.dateNaissance = Dates.dateToString(user.getDateNaissance());
 	    this.role = user.getRole();
 	    this.isActif = user.isActif();
+	    
+	    motDePasseCrypte = user.getPassword();
+	    cleCryptage = user.getCleCryptage();
+
+	    System.out.println("motDePasseCrypte -> " + motDePasseCrypte);
+	    System.out.println("cleCryptage -> " + cleCryptage);
 		
 		return "";
 	}
@@ -110,6 +102,7 @@ public class GestionAdminBean implements Serializable  {
 		FacesContext context = FacesContext.getCurrentInstance();
 		
 		Utilisateur user = new Utilisateur();
+		
 		user.setId(Integer.parseInt(userId));
 		user.setGenre(genre);
 		user.setNom(nom);
@@ -121,6 +114,10 @@ public class GestionAdminBean implements Serializable  {
 		user.setDateNaissance(Dates.stringToDate(dateNaissance));
 		user.setRole(role);
 		user.setActif(isActif);
+		
+		System.out.println("[UPDATE] motDePasseCrypte -> " + user.getPassword());
+	    System.out.println("[UPDATE] cleCryptage -> " + user.getCleCryptage());
+	    System.out.println("[UPDATE] user -> " + user);
 		
 		IUtilisateur userImpl = new UtilisateurImpl();
 		
@@ -206,22 +203,6 @@ public class GestionAdminBean implements Serializable  {
 
 	public void setIsActif(Boolean isActif) {
 		this.isActif = isActif;
-	}
-
-	public byte[] getMotDePasseCrypte() {
-		return motDePasseCrypte;
-	}
-
-	public void setMotDePasseCrypte(byte[] motDePasseCrypte) {
-		this.motDePasseCrypte = motDePasseCrypte;
-	}
-
-	public byte[] getCleCryptage() {
-		return cleCryptage;
-	}
-
-	public void setCleCryptage(byte[] cleCryptage) {
-		this.cleCryptage = cleCryptage;
 	}
 
 	public String getMessageColor() {

@@ -16,16 +16,10 @@
 			<ui:define name="content">
 				<f:view>
 					<h:form>
-						<p>
-							<h:commandLink action="login-utilisateur">
-								<h:outputText value="Connexion" />
-							</h:commandLink>
-						</p>
-						<p>
-							<h:commandLink action="add-utilisateur">
-								<h:outputText value="Inscription" />
-							</h:commandLink>
-						</p>
+						<div class="connect-panel">
+							<p><h:commandButton action="login-utilisateur" value="Connexion" /></p>
+							<p><h:commandButton action="add-utilisateur" value="Inscription" class="button-primary" /></p>
+						</div>
 					</h:form>
 				</f:view>
 			</ui:define>

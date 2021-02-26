@@ -85,7 +85,8 @@
 										<h:commandButton value="Supprimer" action="#{catalogBean.removeArticlePanier(ap)}"></h:commandButton>
 									</h:column>
 								</h:dataTable>
-								<h:commandButton value="Valider" class="button-primary" action="#{catalogBean.validatePanier()}"></h:commandButton>
+								<h:commandButton value="Valider" class="button-primary" action="#{catalogBean.validatePanier()}" 
+									disabled="#{catalogBean.getArticlesPanier(currentUser).isEmpty()}"></h:commandButton>
 							</h:form>
 						</div>
 					</div>

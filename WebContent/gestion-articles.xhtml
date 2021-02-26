@@ -47,7 +47,7 @@
 								<h:outputLabel for="prix">Prix</h:outputLabel>
 								<h:inputText id="prix" required="true" value="#{gestionArticlesBean.prix}" 
 									requiredMessage="Le prix est obligatoire">
-									<f:validateLength minimum="2" maximum="20" />
+									<f:validateLength minimum="1" maximum="20" />
 								</h:inputText>
 								<h:message for="prix" style="color:red"></h:message>
 								
@@ -63,7 +63,7 @@
 								<h:outputLabel for="stock">Stock</h:outputLabel>
 								<h:inputText id="stock" required="true" value="#{gestionArticlesBean.stock}" 
 									requiredMessage="Le stock est obligatoire">
-									<f:validateLength minimum="2" maximum="20" />
+									<f:validateLength minimum="1" maximum="2" />
 								</h:inputText>
 								<h:message for="stock" style="color:red"></h:message>							
 							</div>

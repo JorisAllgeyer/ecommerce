@@ -71,26 +71,9 @@ public class UtilisateurBean implements Serializable {
 	@ManagedProperty(name = "messageColor", value = "")
 	private String messageColor;
 	
-	public void initializeFields() {
-		this.userId  = "";
-		this.nom = "";
-		this.prenom = "";
-		this.genre = "";
-		this.email = "";
-		this.telephone = "";
-		this.dateNaissance = "";
-		this.role = "";
-		this.password = "";
-		this.passwordConfirm = "";
-	}
-	
 	private static List<Adresse> adresses; 
 	static {
 		adresses = new ArrayList<Adresse>();	
-	}
-	
-	public UtilisateurBean() {
-		initializeFields();
 	}
 	
 // Methods	

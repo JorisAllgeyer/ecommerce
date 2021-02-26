@@ -15,7 +15,7 @@
 		<ui:composition template="resources/template/layout.xhtml">
 			<ui:define name="content">
 				<f:view>
-					<h:messages style="color:#{catalogBean.messageColor}"></h:messages>
+					<h:messages style="color:#{validationBean.messageColor}"></h:messages>
 						<h4>Confirmation</h4>
 						<p>Merci #{currentUser.getPrenom()} #{currentUser.getNom()},</p>
 						<p>Votre commande #{currentOrder.getNumero()} a bien été enregistrée.</p>
