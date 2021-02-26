@@ -95,6 +95,7 @@ public class CatalogBean implements Serializable {
 	
 	public String decrementQty(ArticlePanier ap) {
 		IArticlePanier articlePanierImpl = new ArticlePanierImpl();
+		
 		try {
 			
 			if (ap.getQuantite() - 1 <= 0) {
@@ -112,6 +113,7 @@ public class CatalogBean implements Serializable {
 	
 	public String removeArticlePanier(ArticlePanier ap) {
 		IArticlePanier articlePanierImpl = new ArticlePanierImpl();
+		
 		try {
 			articlePanierImpl.removeArticlePanier(ap);
 		} catch (Exception e) {
@@ -183,7 +185,6 @@ public class CatalogBean implements Serializable {
 	}
 	
 	public String validatePanier() {
-		
 		return "validation";
 	}
 

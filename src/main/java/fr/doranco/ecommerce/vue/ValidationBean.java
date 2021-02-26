@@ -23,7 +23,6 @@ import fr.doranco.ecommerce.entity.LigneCommande;
 import fr.doranco.ecommerce.entity.Utilisateur;
 import fr.doranco.ecommerce.utils.Dates;
 
-
 @ManagedBean(name = "validationBean")
 @RequestScoped
 public class ValidationBean implements Serializable {
@@ -32,7 +31,6 @@ public class ValidationBean implements Serializable {
 	
 	@ManagedProperty(name = "adresseId", value = "")
 	private String adresseId;
-
 		
 	@ManagedProperty(name = "messageColor", value = "")
 	private String messageColor;
@@ -117,7 +115,6 @@ public class ValidationBean implements Serializable {
 			
 			this.messageColor = "green";
 			context.addMessage(null, new FacesMessage("Commande passée avec succès."));
-			
 			return "confirmation";
 			
 		} catch (Exception e) {

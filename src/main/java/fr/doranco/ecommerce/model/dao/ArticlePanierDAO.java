@@ -86,4 +86,15 @@ public class ArticlePanierDAO
 		} 
 	}
 
+	@Override
+	public List<Utilisateur> getUsers() throws Exception {
+		try {
+			Query query = session.createNamedQuery("ArticlePanier.getUsers");
+			return (List<Utilisateur>) query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new Exception(e);
+		}
+	}
+
 }

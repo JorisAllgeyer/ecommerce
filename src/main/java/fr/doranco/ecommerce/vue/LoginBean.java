@@ -63,6 +63,12 @@ public class LoginBean implements Serializable {
 		return "";
 	}
 	
+	public void seDeconnecter() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+		session.setAttribute("currentUser", null);
+	}
+	
 	public String getEmail() {
 		return email;
 	}

@@ -15,15 +15,14 @@
 	<body>
 		<ui:composition template="resources/template/layout.xhtml">
 			<ui:define name="content">
-				<f:view>
-					<h4>Administartion Employés</h4>
+				<f:view rendered="#{!currentUser.getRole().contains('Admin')}">
+					<h4>Administartion Employé</h4>
 					<h:messages style="color:#{gestionAdminBean.messageColor}"></h:messages>
 					<div style="display:#{(gestionAdminBean.updateAction)?'block':'none'}">
 <!-- ADMIN FORM -->	
 						<h:form>
 							<!-- User ID -->
 							<h:inputHidden value="#{gestionAdminBean.userId}" id="hiddenField"></h:inputHidden>
-							
 							<div class="row">
 								<div class="one-half column">
 									<!-- Genre -->

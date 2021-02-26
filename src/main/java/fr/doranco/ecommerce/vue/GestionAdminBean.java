@@ -68,11 +68,9 @@ public class GestionAdminBean implements Serializable  {
 		try {
 			return userImpl.getEmployes();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
-		// return userImpl.getUtilisateurs();
 	}
 	
 	public String displayUtilisateur(Utilisateur user) {
@@ -87,12 +85,9 @@ public class GestionAdminBean implements Serializable  {
 	    this.dateNaissance = Dates.dateToString(user.getDateNaissance());
 	    this.role = user.getRole();
 	    this.isActif = user.isActif();
-	    
+	    // Password
 	    motDePasseCrypte = user.getPassword();
 	    cleCryptage = user.getCleCryptage();
-
-	    System.out.println("motDePasseCrypte -> " + motDePasseCrypte);
-	    System.out.println("cleCryptage -> " + cleCryptage);
 		
 		return "";
 	}
@@ -100,7 +95,6 @@ public class GestionAdminBean implements Serializable  {
 	public String updateUtilisateur() {
 		
 		FacesContext context = FacesContext.getCurrentInstance();
-		
 		Utilisateur user = new Utilisateur();
 		
 		user.setId(Integer.parseInt(userId));
@@ -114,10 +108,6 @@ public class GestionAdminBean implements Serializable  {
 		user.setDateNaissance(Dates.stringToDate(dateNaissance));
 		user.setRole(role);
 		user.setActif(isActif);
-		
-		System.out.println("[UPDATE] motDePasseCrypte -> " + user.getPassword());
-	    System.out.println("[UPDATE] cleCryptage -> " + user.getCleCryptage());
-	    System.out.println("[UPDATE] user -> " + user);
 		
 		IUtilisateur userImpl = new UtilisateurImpl();
 		

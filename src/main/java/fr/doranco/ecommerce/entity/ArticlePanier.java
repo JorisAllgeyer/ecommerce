@@ -21,7 +21,8 @@ import javax.validation.constraints.NotNull;
 	@NamedQuery(name = "ArticlePanier.findByUser", query = "SELECT ap FROM ArticlePanier ap WHERE ap.utilisateur = :user"),
 	@NamedQuery(name = "ArticlePanier.findByUserAndArticle", 
 		query = "SELECT ap FROM ArticlePanier ap WHERE ap.utilisateur = :user AND ap.article = :article"),
-	@NamedQuery(name = "ArticlePanier.cleanUserPanier", query = "DELETE FROM ArticlePanier ap WHERE ap.utilisateur = :user")
+	@NamedQuery(name = "ArticlePanier.cleanUserPanier", query = "DELETE FROM ArticlePanier ap WHERE ap.utilisateur = :user"),
+	@NamedQuery(name = "ArticlePanier.getUsers", query = "SELECT u FROM ArticlePanier ap INNER JOIN ap.utilisateur u")
 })
 public class ArticlePanier implements Serializable  {
 	
