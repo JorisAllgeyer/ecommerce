@@ -15,11 +15,16 @@ public class HibernateConnector {
 	private static SessionFactory sessionFactory;
 	
 	private HibernateConnector() throws HibernateException {
-		if (sessionFactory == null) sessionFactory = new Configuration().configure().buildSessionFactory();
+		if (sessionFactory == null) {
+			sessionFactory = new Configuration().configure().buildSessionFactory();			
+		}
 	}
 	
 	public static synchronized HibernateConnector getInstance() throws HibernateException {
-		if (instance == null) instance = new HibernateConnector();
+		if (instance == null) {
+			instance = new HibernateConnector();			
+		}
+		
 		return instance;
 	}
 	

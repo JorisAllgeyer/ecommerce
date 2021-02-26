@@ -15,6 +15,8 @@ import fr.doranco.ecommerce.entity.Utilisateur;
 import fr.doranco.ecommerce.entity.enums.Role;
 import fr.doranco.ecommerce.model.dao.exceptions.DuplicateEntryExcpetion;
 import fr.doranco.ecommerce.utils.Dates;
+import fr.doranco.ecommerce.control.AdresseImpl;
+import fr.doranco.ecommerce.control.IAdresse;
 import fr.doranco.ecommerce.control.IUtilisateur;
 import fr.doranco.ecommerce.control.UtilisateurImpl;
 
@@ -66,9 +68,6 @@ public class UtilisateurBean implements Serializable {
 	@ManagedProperty(name = "codePostal", value = "")
 	private String codePostal;
 	
-	@ManagedProperty(name = "adresses", value = "")
-	private static List<Adresse> adresses; 
-	
 	@ManagedProperty(name = "messageColor", value = "")
 	private String messageColor;
 	
@@ -85,8 +84,9 @@ public class UtilisateurBean implements Serializable {
 		this.passwordConfirm = "";
 	}
 	
+	private static List<Adresse> adresses; 
 	static {
-		adresses = new ArrayList<Adresse>();		
+		adresses = new ArrayList<Adresse>();	
 	}
 	
 	public UtilisateurBean() {
@@ -142,14 +142,48 @@ public class UtilisateurBean implements Serializable {
 		return "login-utilisateur?faces-redirect=true&success=true";
 	}
 	
+	public List<Adresse> getAdresses() {
+		return adresses;
+	}
+	
 	public String addAdresse() {
+		System.out.println("adresses -> " + adresses);
 		Adresse adresse = new Adresse(Integer.parseInt(numero), rue, ville, codePostal);
 		adresses.add(adresse);
 		return "";
 	}
 	
+	public String addAdresseAndSetUser(Utilisateur user) {
+		IAdresse adresseImpl = new AdresseImpl();
+		
+		try {
+			// Create Adresse
+			Adresse adresse = new Adresse(Integer.parseInt(numero), rue, ville, codePostal);
+			adresse.setUtilisateur(user);
+			// Add adresse
+			adresseImpl.addAdresse(adresse);
+			// Update user
+			user.getAdresses().add(adresse);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return "";
+	}
+	
+	public String deleteAdresseAndSetUser(Utilisateur user, Adresse adresse) {
+		IAdresse adresseImpl = new AdresseImpl();
+		
+		try {
+			adresseImpl.removeAdresse(adresse);
+			user.getAdresses().remove(adresse);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+	
 	public String removeAdresse(Adresse adresse) {
-		System.out.println(adresse);
 		adresses.remove(adresse);
 		return "";
 	}
@@ -267,14 +301,6 @@ public class UtilisateurBean implements Serializable {
 
 	public void setCodePostal(String codePostal) {
 		this.codePostal = codePostal;
-	}
-
-	public List<Adresse> getAdresses() {
-		return adresses;
-	}
-	
-	public void setAdresses(List<Adresse> adresses) {
-		UtilisateurBean.adresses = adresses;
 	}
 
 // Messages

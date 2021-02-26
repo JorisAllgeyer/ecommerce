@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+		"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></meta>
+	<title>Ecommerce</title>
+</head>
+	<body>
+		<ui:composition template="resources/template/layout.xhtml">
+			<ui:define name="content">
+				<f:view>
+					<h:messages style="color:#{catalogBean.messageColor}"></h:messages>
+						<h4>Confirmation</h4>
+						<p>Merci #{currentUser.getPrenom()} #{currentUser.getNom()},</p>
+						<p>Votre commande #{currentOrder.getNumero()} a bien été enregistrée.</p>
+						<h4>Historique des commandes:</h4>
+						
+						<h:form>
+							<h:dataTable value="#{currentUser.getCommandes()}" var ="c">
+								<h:column>
+									<f:facet name="header">Commande</f:facet>
+									<h:outputText value="#{c.getNumero()}"></h:outputText>
+								</h:column>
+								<h:column>
+									<f:facet name="header">Date</f:facet>
+									<h:outputText value="#{c.getDateCreation()}"></h:outputText>
+								</h:column>
+								<h:column>
+									<f:facet name="header">Total</f:facet>
+									<h:outputText value="#{c.getTotalGeneral()}"></h:outputText>
+								</h:column>
+							</h:dataTable>
+						</h:form>
+						<h:form>
+							<h:commandButton action="catalog" value="Retourner au catalogue" class="button-primary">
+							</h:commandButton>
+						</h:form>
+				</f:view>
+			</ui:define>
+		</ui:composition>
+	</body>
+</html>

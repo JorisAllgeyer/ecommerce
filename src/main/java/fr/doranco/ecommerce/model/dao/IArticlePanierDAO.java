@@ -10,4 +10,5 @@ public interface IArticlePanierDAO<T> extends IGenericDAO<T> {
 	List<ArticlePanier> getArticlesPanier() throws Exception;
 	List<ArticlePanier> getArticlesPanierByUser(Utilisateur user) throws Exception;
 	ArticlePanier getArticlePanierByUserAndArticle(Utilisateur user, Article article) throws Exception;
+	void cleanPanier(Utilisateur user) throws Exception;
 }

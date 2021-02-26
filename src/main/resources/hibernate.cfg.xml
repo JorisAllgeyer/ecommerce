@@ -12,11 +12,10 @@
         <property name="hibernate.connection.password">root</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
-        <property name="connection.pool_size">3</property>
+<!--         <property name="connection.pool_size">3</property> -->
         <property name="current_session_context_class">thread</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.charSet">UTF-8</property>
-        <!-- <property name="hibernate.enable_lazy_load_no_trans">true</property> -->
 		<!-- MAPPING -->		
         <mapping class="fr.doranco.ecommerce.entity.Adresse"></mapping>
         <mapping class="fr.doranco.ecommerce.entity.Article"></mapping>

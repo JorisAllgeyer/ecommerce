@@ -13,6 +13,7 @@ public interface IArticlePanier {
 	List<ArticlePanier> getArticlesPanier() throws Exception;
 	List<ArticlePanier> getArticlesPanierByUser(Utilisateur user) throws Exception;
 	ArticlePanier getArticlePanierByUserAndArticle(Utilisateur user, Article article) throws Exception;
+	void cleanPanier(Utilisateur user) throws Exception;
 
 // WRITE	
 	ArticlePanier addArticlePanier(ArticlePanier article) throws Exception;

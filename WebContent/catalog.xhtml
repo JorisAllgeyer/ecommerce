@@ -31,7 +31,7 @@
 									</h:column>
 									<h:column>
 										<f:facet name="header">Prix</f:facet>
-										<h:outputText value="#{a.prix}"></h:outputText>
+										<h:outputText value="$#{a.prix}"></h:outputText>
 									</h:column>
 									<h:column>
 										<f:facet name="header">%</f:facet>
@@ -49,7 +49,7 @@
 									</h:column>
 									<h:column>
 										<f:facet name="header">Action</f:facet>
-										<h:commandButton value="Ajouter" action="#{catalogBean.addToCart(a, loginBean.email)}"></h:commandButton>
+										<h:commandButton value="Ajouter" action="#{catalogBean.addToCart(a, currentUser)}"></h:commandButton>
 									</h:column>
 								</h:dataTable>
 							</h:form>
@@ -57,14 +57,14 @@
 						<div class="one-half column">
 							<h4>Panier</h4>
 							<h:form>
-								<h:dataTable value="#{catalogBean.getArticlesPanier(loginBean.email)}" var ="ap">
+								<h:dataTable value="#{catalogBean.getArticlesPanier(currentUser)}" var ="ap">
 									<h:column>
 										<f:facet name="header">Article</f:facet>
 										<h:outputText value="#{ap.article.getNom()}"></h:outputText>
 									</h:column>
 									<h:column>
 										<f:facet name="header">Prix</f:facet>
-										<h:outputText value="#{ap.article.getPrix()}"></h:outputText>
+										<h:outputText value="$#{ap.article.getPrix()}"></h:outputText>
 									</h:column>
 									<h:column>
 										<f:facet name="header">%</f:facet>
@@ -73,12 +73,12 @@
 									<h:column>
 										<f:facet name="header">Quantité</f:facet>
 										<h:outputText value="#{ap.quantite}"></h:outputText>&nbsp;
-										<h:commandButton style="padding:0 15px;" value="+" action="#{catalogBean.incrementQty(ap)}"></h:commandButton>&nbsp;
-										<h:commandButton style="padding:0 15px;" value="-" action="#{catalogBean.decrementQty(ap)}"></h:commandButton>
+										<h:commandButton style="padding:0 15px;" value="-" action="#{catalogBean.decrementQty(ap)}"></h:commandButton>&nbsp;
+										<h:commandButton style="padding:0 15px;" value="+" action="#{catalogBean.incrementQty(ap)}"></h:commandButton>
 									</h:column>
 									<h:column>
 										<f:facet name="header">Sous Total</f:facet>
-										<h:outputText value="#{(ap.article.getPrix() - (ap.article.getPrix() * ap.article.getRemise() /100)) * ap.quantite}"></h:outputText>
+										<h:outputText value="$#{(ap.article.getPrix() - (ap.article.getPrix() * ap.article.getRemise() /100)) * ap.quantite}"></h:outputText>
 									</h:column>
 									<h:column>
 										<f:facet name="header">Action</f:facet>

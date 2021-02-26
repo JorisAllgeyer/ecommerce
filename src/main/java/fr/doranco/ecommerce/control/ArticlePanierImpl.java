@@ -35,6 +35,14 @@ public class ArticlePanierImpl implements IArticlePanier {
 	}
 	
 	@Override
+	public void cleanPanier(Utilisateur user) throws Exception {
+		IArticlePanierDAO<ArticlePanier> articlePanierDAO = new ArticlePanierDAO();
+		articlePanierDAO.cleanPanier(user);
+	}
+	
+// CRUD	
+	
+	@Override
 	public ArticlePanier addArticlePanier(ArticlePanier articlePanier) throws Exception {
 		IArticlePanierDAO<ArticlePanier> articlePanierDAO = new ArticlePanierDAO();
 		return articlePanierDAO.add(articlePanier);
@@ -51,7 +59,4 @@ public class ArticlePanierImpl implements IArticlePanier {
 		IArticlePanierDAO<ArticlePanier> articlePanierDAO = new ArticlePanierDAO();
 		articlePanierDAO.remove(articlePanier);
 	}
-
-
-
 }

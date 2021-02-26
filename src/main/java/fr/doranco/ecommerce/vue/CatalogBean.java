@@ -15,8 +15,6 @@ import fr.doranco.ecommerce.control.ArticleImpl;
 import fr.doranco.ecommerce.control.ArticlePanierImpl;
 import fr.doranco.ecommerce.control.IArticle;
 import fr.doranco.ecommerce.control.IArticlePanier;
-import fr.doranco.ecommerce.control.IUtilisateur;
-import fr.doranco.ecommerce.control.UtilisateurImpl;
 import fr.doranco.ecommerce.entity.Article;
 import fr.doranco.ecommerce.entity.ArticlePanier;
 import fr.doranco.ecommerce.entity.Utilisateur;
@@ -56,17 +54,11 @@ public class CatalogBean implements Serializable {
 		totalPanier = 0f;
 	}
 	
-	public CatalogBean() {
-		
-	}
-	
-	public List<ArticlePanier> getArticlesPanier(String userEmail) {
+	public List<ArticlePanier> getArticlesPanier(Utilisateur user) {
 		// User
-		IUtilisateur userImpl = new UtilisateurImpl();
 		IArticlePanier articlePanierImpl = new ArticlePanierImpl();
 		
 		try {
-			Utilisateur user = userImpl.getUtilisateurByEmail(userEmail);
 			return articlePanierImpl.getArticlesPanierByUser(user);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -104,7 +96,13 @@ public class CatalogBean implements Serializable {
 	public String decrementQty(ArticlePanier ap) {
 		IArticlePanier articlePanierImpl = new ArticlePanierImpl();
 		try {
-			ap.setQuantite(ap.getQuantite() - 1);
+			
+			if (ap.getQuantite() - 1 <= 0) {
+				articlePanierImpl.removeArticlePanier(ap);
+			} else {				
+				ap.setQuantite(ap.getQuantite() - 1);
+			}
+			
 			articlePanierImpl.updateArticlePanier(ap);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -122,15 +120,13 @@ public class CatalogBean implements Serializable {
 		return "";
 	}
 	
-	public String getTotal(String userEmail) {
-		// User
-		IUtilisateur userImpl = new UtilisateurImpl();
+	public String getTotal(Utilisateur user) {
 		// ArticlePanier
 		IArticlePanier articlePanierImpl = new ArticlePanierImpl();
 		
 		try {
-			Utilisateur user = userImpl.getUtilisateurByEmail(userEmail);
 			List<ArticlePanier> articlesPanier = articlePanierImpl.getArticlesPanierByUser(user);
+			
 			totalPanier = 0f;
 			articlesPanier.forEach(ap -> {
 				Float price = ap.getArticle().getPrix();
@@ -149,10 +145,8 @@ public class CatalogBean implements Serializable {
 		return "";
 	}
 	
-	public String addToCart(Article article, String userEmail) {
+	public String addToCart(Article article, Utilisateur user) {
 		FacesContext context = FacesContext.getCurrentInstance();
-		// User
-		IUtilisateur userImpl = new UtilisateurImpl();
 		
 		// ArticlePanier
 		IArticlePanier articlePanierImpl = new ArticlePanierImpl();
@@ -162,7 +156,6 @@ public class CatalogBean implements Serializable {
 			: 1;
 		
 		try {
-			Utilisateur user = userImpl.getUtilisateurByEmail(userEmail);
 			ArticlePanier articlePanierFromSQL = articlePanierImpl.getArticlePanierByUserAndArticle(user, article);
 			
 			// ArticlePanier already exists, update it. 

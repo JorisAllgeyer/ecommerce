@@ -32,6 +32,18 @@ public abstract class Dates {
 		return dateStr;
 	}
 	
+	public static final String customDateToString(Date date, String format) {
+		
+		String dateStr = null;
+		try {
+		SimpleDateFormat formatter = new SimpleDateFormat(format);
+		dateStr = formatter.format(date);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return dateStr;
+	}
+	
 
 	public static final java.sql.Date convertDateUtilToDateSql(java.util.Date utilDate) {
 		return new java.sql.Date(utilDate.getTime());

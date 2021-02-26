@@ -7,6 +7,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 import fr.doranco.ecommerce.control.IUtilisateur;
 import fr.doranco.ecommerce.control.UtilisateurImpl;
@@ -52,6 +53,9 @@ public class LoginBean implements Serializable {
 			context.addMessage(null, new FacesMessage("Login et/ou Mot de passe incorrect(s)"));
 			return "";
 		}
+		
+		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
+		session.setAttribute("currentUser", user);
 		
 		if (user.getRole().equals(Role.ADMIN.getRole())) return "gestion-admin";
 		if (user.getRole().equals(Role.MAGASINIER.getRole())) return "gestion-articles";

@@ -18,12 +18,10 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "article_panier", catalog = "ecommerce_db")
 @NamedQueries({
-	@NamedQuery(name = "ArticlePanier.findAll", query = "SELECT ap FROM ArticlePanier ap"),
 	@NamedQuery(name = "ArticlePanier.findByUser", query = "SELECT ap FROM ArticlePanier ap WHERE ap.utilisateur = :user"),
-	
 	@NamedQuery(name = "ArticlePanier.findByUserAndArticle", 
-		query = "SELECT ap FROM ArticlePanier ap WHERE ap.utilisateur = :user AND ap.article = :article")
-	
+		query = "SELECT ap FROM ArticlePanier ap WHERE ap.utilisateur = :user AND ap.article = :article"),
+	@NamedQuery(name = "ArticlePanier.cleanUserPanier", query = "DELETE FROM ArticlePanier ap WHERE ap.utilisateur = :user")
 })
 public class ArticlePanier implements Serializable  {
 	
