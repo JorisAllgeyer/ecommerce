@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.StringTokenizer;
 
@@ -89,7 +90,9 @@ public class AnthenticationFilter implements javax.ws.rs.container.ContainerRequ
 		
 		boolean isAllowed = false;
 		
-		if (username.equals("root") && password.equals("root")) {
+		ResourceBundle rb = ResourceBundle.getBundle("fr.doranco.ecommerce.service.dbfile");
+		
+		if (username.equals(rb.getString("WS_USER")) && password.equals(rb.getString("WS_PASSWORD"))) {
 			String userRole = "WS";
 			
 			if (rolesSet.contains(userRole)) isAllowed = true;
