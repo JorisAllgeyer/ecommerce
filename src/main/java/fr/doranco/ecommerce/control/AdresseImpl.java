@@ -5,6 +5,12 @@ import fr.doranco.ecommerce.model.dao.AdresseDAO;
 import fr.doranco.ecommerce.model.dao.IAdresseDAO;
 
 public class AdresseImpl implements IAdresse {
+	
+	@Override
+	public Adresse getAdresse(Integer id) throws Exception {
+		IAdresseDAO<Adresse> adresseDAO = new AdresseDAO();
+		return adresseDAO.get(Adresse.class, id);
+	}
 
 	@Override
 	public Adresse addAdresse(Adresse adresse) throws Exception {

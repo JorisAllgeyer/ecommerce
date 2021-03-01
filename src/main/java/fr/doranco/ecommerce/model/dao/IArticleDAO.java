@@ -5,5 +5,5 @@ import java.util.List;
 import fr.doranco.ecommerce.entity.Article;
 
 public interface IArticleDAO<T> extends IGenericDAO<T> {
-	List<Article> getArticles();
+	List<Article> getArticles() throws Exception;
 }

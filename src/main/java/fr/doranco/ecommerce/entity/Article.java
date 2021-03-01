@@ -18,6 +18,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Table(name = "article", catalog = "ecommerce_db")
 @NamedQueries({
 	@NamedQuery(name = "Article.findAll", query = "SELECT a FROM Article a"),
+	@NamedQuery(name = "Article.findAllInStock", query = "SELECT a FROM Article a WHERE a.stock > 0"),
+	@NamedQuery(name = "Article.findAllInSale", query = "SELECT a FROM Article a WHERE a.remise > 0"),
 })
 public class Article implements Serializable  {
 	

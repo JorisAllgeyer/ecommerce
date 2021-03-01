@@ -5,7 +5,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></meta>
@@ -49,7 +50,8 @@
 									</h:column>
 									<h:column>
 										<f:facet name="header">Action</f:facet>
-										<h:commandButton value="Ajouter" action="#{catalogBean.addToCart(a, currentUser)}"></h:commandButton>
+										<h:commandButton value="Ajouter" action="#{catalogBean.addToCart(a, currentUser)}" 
+											disabled="#{currentUser == null}" />
 									</h:column>
 								</h:dataTable>
 							</h:form>
@@ -57,36 +59,41 @@
 						<div class="one-half column">
 							<h4>Panier</h4>
 							<h:form>
-								<h:dataTable value="#{catalogBean.getArticlesPanier(currentUser)}" var ="ap">
-									<h:column>
-										<f:facet name="header">Article</f:facet>
-										<h:outputText value="#{ap.article.getNom()}"></h:outputText>
-									</h:column>
-									<h:column>
-										<f:facet name="header">Prix</f:facet>
-										<h:outputText value="$#{ap.article.getPrix()}"></h:outputText>
-									</h:column>
-									<h:column>
-										<f:facet name="header">%</f:facet>
-										<h:outputText value="#{ap.article.getRemise()}"></h:outputText>
-									</h:column>
-									<h:column>
-										<f:facet name="header">Quantité</f:facet>
-										<h:outputText value="#{ap.quantite}"></h:outputText>&nbsp;
-										<h:commandButton style="padding:0 15px;" value="-" action="#{catalogBean.decrementQty(ap)}"></h:commandButton>&nbsp;
-										<h:commandButton style="padding:0 15px;" value="+" action="#{catalogBean.incrementQty(ap)}"></h:commandButton>
-									</h:column>
-									<h:column>
-										<f:facet name="header">Sous Total</f:facet>
-										<h:outputText value="$#{(ap.article.getPrix() - (ap.article.getPrix() * ap.article.getRemise() /100)) * ap.quantite}"></h:outputText>
-									</h:column>
-									<h:column>
-										<f:facet name="header">Action</f:facet>
-										<h:commandButton value="Supprimer" action="#{catalogBean.removeArticlePanier(ap)}"></h:commandButton>
-									</h:column>
-								</h:dataTable>
-								<h:commandButton value="Valider" class="button-primary" action="#{catalogBean.validatePanier()}" 
-									disabled="#{catalogBean.getArticlesPanier(currentUser).isEmpty()}"></h:commandButton>
+								<c:if test="#{currentUser == null}">
+									<p><h:commandLink value="Connectez-vous" action="login-utilisateur"></h:commandLink> pour remplir votre panier</p>
+								</c:if>
+								<ui:fragment rendered="#{currentUser != null}">								
+									<h:dataTable value="#{catalogBean.getArticlesPanier(currentUser)}" var ="ap">
+										<h:column>
+											<f:facet name="header">Article</f:facet>
+											<h:outputText value="#{ap.article.getNom()}"></h:outputText>
+										</h:column>
+										<h:column>
+											<f:facet name="header">Prix</f:facet>
+											<h:outputText value="$#{ap.article.getPrix()}"></h:outputText>
+										</h:column>
+										<h:column>
+											<f:facet name="header">%</f:facet>
+											<h:outputText value="#{ap.article.getRemise()}"></h:outputText>
+										</h:column>
+										<h:column>
+											<f:facet name="header">Quantité</f:facet>
+											<h:outputText value="#{ap.quantite}"></h:outputText>&nbsp;
+											<h:commandButton style="padding:0 15px;" value="-" action="#{catalogBean.decrementQty(ap)}"></h:commandButton>&nbsp;
+											<h:commandButton style="padding:0 15px;" value="+" action="#{catalogBean.incrementQty(ap)}"></h:commandButton>
+										</h:column>
+										<h:column>
+											<f:facet name="header">Sous Total</f:facet>
+											<h:outputText value="$#{(ap.article.getPrix() - (ap.article.getPrix() * ap.article.getRemise() /100)) * ap.quantite}"></h:outputText>
+										</h:column>
+										<h:column>
+											<f:facet name="header">Action</f:facet>
+											<h:commandButton value="Supprimer" action="#{catalogBean.removeArticlePanier(ap)}"></h:commandButton>
+										</h:column>
+									</h:dataTable>
+									<h:commandButton value="Valider" class="button-primary" action="#{catalogBean.validatePanier()}" 
+										disabled="#{catalogBean.getArticlesPanier(currentUser).isEmpty()}"></h:commandButton>
+								</ui:fragment>
 							</h:form>
 						</div>
 					</div>

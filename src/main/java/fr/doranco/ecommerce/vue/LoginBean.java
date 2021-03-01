@@ -28,15 +28,6 @@ public class LoginBean implements Serializable {
 	
 	@ManagedProperty(name = "messageColor", value = "")
 	private String messageColor;
-	
-	public void initializeFields() {
-		this.email = "";
-		this.password = "";
-	}
-	
-	public LoginBean() {
-		initializeFields();
-	}
 
 	public String seConnecter() {
 		
@@ -63,10 +54,11 @@ public class LoginBean implements Serializable {
 		return "";
 	}
 	
-	public void seDeconnecter() {
+	public String seDeconnecter() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
 		session.setAttribute("currentUser", null);
+		return "";
 	}
 	
 	public String getEmail() {

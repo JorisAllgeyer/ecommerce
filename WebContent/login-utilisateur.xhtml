@@ -27,10 +27,10 @@
 						
 						<!-- Password -->
 						<h:outputLabel for="password">Password</h:outputLabel>
-						<h:inputText id="password" required="true" value="#{loginBean.password}" 
+						<h:inputSecret id="password" required="true" value="#{loginBean.password}" 
 							requiredMessage="Le Mot de passe est obligatoire">
 							<f:validateLength minimum="2" maximum="20" />
-						</h:inputText>
+						</h:inputSecret>
 						<h:message for="password" style="color:red"></h:message>
 						
 						<br/>

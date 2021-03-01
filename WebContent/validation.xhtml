@@ -5,7 +5,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"></meta>
@@ -14,128 +15,134 @@
 	<body>
 		<ui:composition template="resources/template/layout.xhtml">
 			<ui:define name="content">
-				<f:view>
-					<h:messages style="color:#{validationBean.messageColor}"></h:messages>
-					<div class="row">
-						<div class="one-half column">
-							<h4>Commande</h4>
-							<h:form>
-								<h:dataTable value="#{catalogBean.getArticlesPanier(currentUser)}" var ="ap">
+				<c:if test="#{currentUser == null}">
+					<p>Vous n'êtes pas autorisé à afficher cette page</p>
+				</c:if>
+				<ui:fragment rendered="#{currentUser != null}">
+					<f:view>
+						<h:messages style="color:#{validationBean.messageColor}"></h:messages>
+						<div class="row">
+							<div class="one-half column">
+								<h4>Commande</h4>
+								<h:form>
+									<h:dataTable value="#{catalogBean.getArticlesPanier(currentUser)}" var ="ap">
+										<h:column>
+											<f:facet name="header">Article</f:facet>
+											<h:outputText value="#{ap.article.getNom()}"></h:outputText>
+										</h:column>
+										<h:column>
+											<f:facet name="header">Prix</f:facet>
+											<h:outputText value="$#{ap.article.getPrix()}"></h:outputText>
+										</h:column>
+										<h:column>
+											<f:facet name="header">%</f:facet>
+											<h:outputText value="#{ap.article.getRemise()}"></h:outputText>
+										</h:column>
+										<h:column>
+											<f:facet name="header">Quantité</f:facet>
+											<h:outputText value="#{ap.quantite}"></h:outputText>&nbsp;
+										</h:column>
+										<h:column>
+											<f:facet name="header">Sous Total</f:facet>
+											<h:outputText value="#{(ap.article.getPrix() - (ap.article.getPrix() * ap.article.getRemise() /100)) * ap.quantite}"></h:outputText>
+										</h:column>
+									</h:dataTable>
+									<h5>Total: $#{catalogBean.getTotal(currentUser)}</h5>
+								</h:form>
+							</div>
+<!-- Adresse de livraison form -->
+							<div class="one-half column">
+								<h4>Livraison</h4>
+								<h5>Sélectionnez une adresse de livraison</h5>
+								<h:form>
+									<h:message for="adresse" style="color:red"></h:message>
+									<h:selectOneRadio id="adresse" value="#{validationBean.adresseId}" 
+										required="true" requiredMessage="L'adresse est obligatoire">
+										<f:selectItems 
+											value="#{currentUser.getAdresses()}" 
+											var="ad" 
+											itemValue="#{ad.getId()}" 
+											itemLabel="#{ad.getNumero()} #{ad.getRue()}, #{ad.getCodePostal()} #{ad.getVille()}"
+											onchange="" />
+											
+											<f:ajax listener="#{validationBean.setDeliveryAdresse()}" />
+									</h:selectOneRadio>
+									<h:commandButton value="Valider" class="button-primary" action="#{validationBean.validateOrder(currentUser)}"></h:commandButton>
+								</h:form>
+							</div>
+						</div>
+						<hr />
+						<h4>Mes adresses</h4>
+<!-- Add adresse form -->
+						<h:form>
+							<div class="row">
+								<div class="two columns">
+									<h:outputLabel for="numero">Numéro</h:outputLabel>
+									<h:inputText id="numero" value="#{utilisateurBean.numero}" 
+										required="true" requiredMessage="Le numéro de rue est obligatoire">
+									</h:inputText>
+									<br/><h:message for="numero" style="color:red"></h:message>							
+								</div>
+								<div class="three columns">
+									<h:outputLabel for="rue">Rue</h:outputLabel>
+									<h:inputText id="rue" value="#{utilisateurBean.rue}" 
+										required="true" requiredMessage="La rue est obligatoire">
+									</h:inputText>
+									<br/><h:message for="rue" style="color:red"></h:message>							
+								</div>
+								<div class="three columns">
+									<h:outputLabel for="ville">Ville</h:outputLabel>
+									<h:inputText id="ville" value="#{utilisateurBean.ville}" 
+										required="true" requiredMessage="La ville est obligatoire">
+									</h:inputText>
+									<br/><h:message for="ville" style="color:red"></h:message>		
+								</div>
+								<div class="two columns">
+									<h:outputLabel for="codePostal">Code Postal</h:outputLabel>
+									<h:inputText id="codePostal" value="#{utilisateurBean.codePostal}" 
+										required="true" requiredMessage="Le code postal est obligatoire">
+									</h:inputText>
+									<br/><h:message for="codePostal" style="color:red"></h:message>		
+								</div>
+								<div class="two columns"
+									style="display:#{(utilisateurBean.getAdresses().size() > 2)?'none':'block'}">
+									<h:outputLabel for="addAdresse">Ajouter</h:outputLabel>					
+									<h:commandButton style="padding:0 15px;" id="addAdresse" value="+" class="button-primary"
+										action="#{utilisateurBean.addAdresseAndSetUser(currentUser)}">
+									</h:commandButton>
+								</div>
+							</div>
+						</h:form>
+<!-- list Adresse Form -->
+						<h:form>
+							<div class="row">
+								<h:dataTable value="#{currentUser.getAdresses()}" var ="a" 
+								rendered="#{currentUser.getAdresses().isEmpty() ? 'false' : 'true'}">
 									<h:column>
-										<f:facet name="header">Article</f:facet>
-										<h:outputText value="#{ap.article.getNom()}"></h:outputText>
+										<f:facet name="header">Numéro</f:facet>
+										<h:outputText value="#{a.numero}"></h:outputText>
 									</h:column>
 									<h:column>
-										<f:facet name="header">Prix</f:facet>
-										<h:outputText value="$#{ap.article.getPrix()}"></h:outputText>
+										<f:facet name="header">Rue</f:facet>
+										<h:outputText value="#{a.rue}"></h:outputText>
 									</h:column>
 									<h:column>
-										<f:facet name="header">%</f:facet>
-										<h:outputText value="#{ap.article.getRemise()}"></h:outputText>
+										<f:facet name="header">Ville</f:facet>
+										<h:outputText value="#{a.ville}"></h:outputText>
 									</h:column>
 									<h:column>
-										<f:facet name="header">Quantité</f:facet>
-										<h:outputText value="#{ap.quantite}"></h:outputText>&nbsp;
+										<f:facet name="header">Code Postal</f:facet>
+										<h:outputText value="#{a.codePostal}"></h:outputText>
 									</h:column>
 									<h:column>
-										<f:facet name="header">Sous Total</f:facet>
-										<h:outputText value="#{(ap.article.getPrix() - (ap.article.getPrix() * ap.article.getRemise() /100)) * ap.quantite}"></h:outputText>
+										<f:facet name="header">Action</f:facet>
+										<h:commandButton value="Retirer" action="#{utilisateurBean.deleteAdresseAndSetUser(currentUser, a)}"></h:commandButton>
 									</h:column>
 								</h:dataTable>
-								<h5>Total: $#{catalogBean.getTotal(currentUser)}</h5>
-							</h:form>
-						</div>
-						
-						<div class="one-half column">
-							<h4>Livraison</h4>
-							<h5>Sélectionnez une adresse de livraison</h5>
-							<h:form>
-								<h:message for="adresse" style="color:red"></h:message>
-								<h:selectOneRadio id="adresse" value="#{validationBean.adresseId}" 
-									required="true" requiredMessage="L'adresse est obligatoire">
-									<f:selectItems 
-										value="#{currentUser.getAdresses()}" 
-										var="ad" 
-										itemValue="#{ad.getId()}" 
-										itemLabel="#{ad.getNumero()} #{ad.getRue()}, #{ad.getCodePostal()} #{ad.getVille()}"
-										onchange="" />
-										
-										<f:ajax listener="#{validationBean.setDeliveryAdresse()}" />
-								</h:selectOneRadio>
-								<h:commandButton value="Valider" class="button-primary" action="#{validationBean.validateOrder(currentUser)}"></h:commandButton>
-							</h:form>
-						</div>
-					</div>
-					<hr />
-					<h4>Mes adresses</h4>
-					<h:form>
-						<div class="row">
-							<div class="two columns">
-								<h:outputLabel for="numero">Numéro</h:outputLabel>
-								<h:inputText id="numero" value="#{utilisateurBean.numero}" 
-									required="true" requiredMessage="Le numéro de rue est obligatoire">
-								</h:inputText>
-								<br/><h:message for="numero" style="color:red"></h:message>							
 							</div>
-							<div class="three columns">
-								<h:outputLabel for="rue">Rue</h:outputLabel>
-								<h:inputText id="rue" value="#{utilisateurBean.rue}" 
-									required="true" requiredMessage="La rue est obligatoire">
-								</h:inputText>
-								<br/><h:message for="rue" style="color:red"></h:message>							
-							</div>
-							<div class="three columns">
-								<h:outputLabel for="ville">Ville</h:outputLabel>
-								<h:inputText id="ville" value="#{utilisateurBean.ville}" 
-									required="true" requiredMessage="La ville est obligatoire">
-								</h:inputText>
-								<br/><h:message for="ville" style="color:red"></h:message>		
-							</div>
-							<div class="two columns">
-								<h:outputLabel for="codePostal">Code Postal</h:outputLabel>
-								<h:inputText id="codePostal" value="#{utilisateurBean.codePostal}" 
-									required="true" requiredMessage="Le code postal est obligatoire">
-								</h:inputText>
-								<br/><h:message for="codePostal" style="color:red"></h:message>		
-							</div>
-							<div class="two columns"
-								style="display:#{(utilisateurBean.getAdresses().size() > 2)?'none':'block'}">
-								<h:outputLabel for="addAdresse">Ajouter</h:outputLabel>					
-								<h:commandButton style="padding:0 15px;" id="addAdresse" value="+" class="button-primary"
-									action="#{utilisateurBean.addAdresseAndSetUser(currentUser)}">
-								</h:commandButton>
-							</div>
-						</div>
-					</h:form>
-					
-					<h:form>
-						<div class="row">
-							<h:dataTable value="#{currentUser.getAdresses()}" var ="a" 
-							rendered="#{currentUser.getAdresses().isEmpty() ? 'false' : 'true'}">
-								<h:column>
-									<f:facet name="header">Numéro</f:facet>
-									<h:outputText value="#{a.numero}"></h:outputText>
-								</h:column>
-								<h:column>
-									<f:facet name="header">Rue</f:facet>
-									<h:outputText value="#{a.rue}"></h:outputText>
-								</h:column>
-								<h:column>
-									<f:facet name="header">Ville</f:facet>
-									<h:outputText value="#{a.ville}"></h:outputText>
-								</h:column>
-								<h:column>
-									<f:facet name="header">Code Postal</f:facet>
-									<h:outputText value="#{a.codePostal}"></h:outputText>
-								</h:column>
-								<h:column>
-									<f:facet name="header">Action</f:facet>
-									<h:commandButton value="Retirer" action="#{utilisateurBean.deleteAdresseAndSetUser(currentUser, a)}"></h:commandButton>
-								</h:column>
-							</h:dataTable>
-						</div>
-					</h:form>
-				</f:view>
+						</h:form>
+					</f:view>
+				</ui:fragment>
 			</ui:define>
 		</ui:composition>
 	</body>

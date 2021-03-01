@@ -14,7 +14,7 @@ public class ArticleDAO
 	
 
 	@Override
-	public List<Article> getArticles() {
+	public List<Article> getArticles() throws Exception {
 		Session session = HibernateConnector.getInstance().getSession();
 
 		try {
@@ -22,10 +22,8 @@ public class ArticleDAO
 			return (List<Article>) query.list();
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (session != null) session.close();
-		}
-		return null;
+			throw new Exception(e);
+		} 
 	}
 
 }

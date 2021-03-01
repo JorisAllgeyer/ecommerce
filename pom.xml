@@ -53,7 +53,7 @@
 		    <version>2.2.20</version>
 		</dependency>
 		
-		<!-- GSON -->
+<!-- GSON -->
 		<dependency>
 		    <groupId>com.google.code.gson</groupId>
 		    <artifactId>gson</artifactId>

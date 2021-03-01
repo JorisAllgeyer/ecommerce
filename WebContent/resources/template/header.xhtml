@@ -4,7 +4,8 @@
 	
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:ui="http://java.sun.com/jsf/facelets">
+	  xmlns:ui="http://java.sun.com/jsf/facelets"
+	  xmlns:c="http://java.sun.com/jsp/jstl/core">
 	
 	<body>
 		<ui:composition>
@@ -12,8 +13,11 @@
 				<h:commandLink action="accueil">
 					<h3>Ecommerce</h3>
 				</h:commandLink>			
+				<h5>Bonjour, #{currentUser.getEmail()} </h5>
+				<c:if test="#{currentUser != null}">
+					<h5><h:commandLink action="#{loginBean.seDeconnecter()}" value="Deconnexion" /></h5>
+				</c:if>
 			</h:form>
-			<h5>Bonjour, #{currentUser.getEmail()}</h5>
 			<h:form>
 				<div class="navigation">
 					<h:commandLink action="catalog">Catalogue</h:commandLink>

@@ -22,7 +22,7 @@ import javax.validation.constraints.NotNull;
 	@NamedQuery(name = "ArticlePanier.findByUserAndArticle", 
 		query = "SELECT ap FROM ArticlePanier ap WHERE ap.utilisateur = :user AND ap.article = :article"),
 	@NamedQuery(name = "ArticlePanier.cleanUserPanier", query = "DELETE FROM ArticlePanier ap WHERE ap.utilisateur = :user"),
-	@NamedQuery(name = "ArticlePanier.getUsers", query = "SELECT u FROM ArticlePanier ap INNER JOIN ap.utilisateur u")
+	@NamedQuery(name = "ArticlePanier.getUsers", query = "SELECT DISTINCT u FROM ArticlePanier ap INNER JOIN ap.utilisateur u")
 })
 public class ArticlePanier implements Serializable  {
 	
@@ -87,8 +87,7 @@ public class ArticlePanier implements Serializable  {
 
 	@Override
 	public String toString() {
-		return "ArticlePanier [id=" + id + ", article=" + article + ", quantite=" + quantite + ", utilisateur_id="
-				+ utilisateur.getId() + "]";
+		return "ArticlePanier [id=" + id + ", article=" + article + ", quantite=" + quantite + "]";
 	}
 	
 }

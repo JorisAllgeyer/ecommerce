@@ -3,6 +3,8 @@ package fr.doranco.ecommerce.control;
 import fr.doranco.ecommerce.entity.Adresse;
 
 public interface IAdresse {
+// READ
+	Adresse getAdresse(Integer id) throws Exception;
 
 // WRITE	
 	Adresse addAdresse(Adresse adresse) throws Exception;

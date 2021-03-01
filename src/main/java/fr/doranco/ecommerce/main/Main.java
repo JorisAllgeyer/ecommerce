@@ -8,11 +8,14 @@ import org.hibernate.query.Query;
 import fr.doranco.ecommerce.entity.Article;
 import fr.doranco.ecommerce.entity.ArticlePanier;
 import fr.doranco.ecommerce.entity.Utilisateur;
+import fr.doranco.ecommerce.entity.enums.Genre;
+import fr.doranco.ecommerce.entity.enums.Role;
 import fr.doranco.ecommerce.model.connector.HibernateConnector;
 import fr.doranco.ecommerce.model.dao.ArticleDAO;
 import fr.doranco.ecommerce.model.dao.IArticleDAO;
 import fr.doranco.ecommerce.model.dao.IUtilisateurDAO;
 import fr.doranco.ecommerce.model.dao.UtilisateurDAO;
+import fr.doranco.ecommerce.utils.Dates;
 
 public class Main {
 	
@@ -21,19 +24,13 @@ public class Main {
 		Session session = HibernateConnector.getInstance().getSession();		
 		
 		try {
-			IUtilisateurDAO<Utilisateur> userDAO = new UtilisateurDAO();
-			IArticleDAO<Article> articleDAO = new ArticleDAO();
+//			IUtilisateurDAO<Utilisateur> userDAO = new UtilisateurDAO();
+//			Utilisateur user = new Utilisateur("ALLGEYER", "Joris", Genre.MONSIEUR.getGenre(), 
+//					Dates.stringToDate("20/10/1993"), Role.ADMIN.getRole(), "0606060606", 
+//					joris@admin.com, password, cleCryptage, isActif);
+			// userDAO.add(user);
 			
-			Utilisateur user = userDAO.get(Utilisateur.class, 34);
-			Article article = articleDAO.get(Article.class, 4);
 			
-			Query query = session.createNamedQuery("ArticlePanier.findByUser");
-			query.setParameter("user", user);
-			// query.setParameter("article", article);
-			
-			List<ArticlePanier> result = (List<ArticlePanier>) query.list();
-			
-			System.out.println("result -> " + result);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

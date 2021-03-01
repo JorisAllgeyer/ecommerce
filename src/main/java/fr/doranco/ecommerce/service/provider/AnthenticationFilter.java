@@ -89,8 +89,8 @@ public class AnthenticationFilter implements javax.ws.rs.container.ContainerRequ
 		
 		boolean isAllowed = false;
 		
-		if (username.equals("toto") && password.equals("titi")) {
-			String userRole = "ADMIN";
+		if (username.equals("root") && password.equals("root")) {
+			String userRole = "WS";
 			
 			if (rolesSet.contains(userRole)) isAllowed = true;
 		}

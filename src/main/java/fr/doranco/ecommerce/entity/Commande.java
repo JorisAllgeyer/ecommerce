@@ -58,6 +58,10 @@ public class Commande implements Serializable  {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "commande", fetch=FetchType.LAZY)
 	private List<LigneCommande> lignesCommande;
 	
+	@ManyToOne
+	@JoinColumn(name = "adresse_id", nullable = false, insertable = true)
+	private Adresse adresse;
+	
 	public Commande() {
 		this.lignesCommande = new ArrayList<LigneCommande>();
 	}
@@ -135,6 +139,14 @@ public class Commande implements Serializable  {
 
 	public void setLignesCommande(List<LigneCommande> lignesCommande) {
 		this.lignesCommande = lignesCommande;
+	}
+	
+	public Adresse getAdresse() {
+		return adresse;
+	}
+
+	public void setAdresse(Adresse adresse) {
+		this.adresse = adresse;
 	}
 
 	@Override

@@ -12,8 +12,12 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
+import fr.doranco.ecommerce.control.AdresseImpl;
+import fr.doranco.ecommerce.control.ArticleImpl;
 import fr.doranco.ecommerce.control.ArticlePanierImpl;
 import fr.doranco.ecommerce.control.CommandeImpl;
+import fr.doranco.ecommerce.control.IAdresse;
+import fr.doranco.ecommerce.control.IArticle;
 import fr.doranco.ecommerce.control.IArticlePanier;
 import fr.doranco.ecommerce.control.ICommande;
 import fr.doranco.ecommerce.entity.Adresse;
@@ -56,6 +60,8 @@ public class ValidationBean implements Serializable {
 		HttpSession session = (HttpSession) context.getExternalContext().getSession(true);
 		
 		IArticlePanier articlePanierImpl = new ArticlePanierImpl();
+		IAdresse adresseImpl = new AdresseImpl();
+		IArticle articleImpl = new ArticleImpl();
 		
 		try {
 			List<ArticlePanier> panier = articlePanierImpl.getArticlesPanierByUser(user);
@@ -63,6 +69,9 @@ public class ValidationBean implements Serializable {
 			
 			// Init lignesCommande
 			List<LigneCommande> lignesCommande = new ArrayList<LigneCommande>();
+			
+			// Adresse
+			Adresse adresse = adresseImpl.getAdresse(Integer.parseInt(adresseId));
 			
 			// Init totals
 			totalPanier = 0f;
@@ -98,6 +107,7 @@ public class ValidationBean implements Serializable {
 			commande.setTotalGeneral(totalPanier);
 			commande.setTotalRemise(totalRemise);
 			commande.setUtilisateur(user);
+			commande.setAdresse(adresse);
 			
 			// Set Commmande
 			lignesCommande.forEach(ligne -> ligne.setCommande(commande));
@@ -112,6 +122,9 @@ public class ValidationBean implements Serializable {
 			// Clean Panier
 			articlePanierImpl.cleanPanier(user);
 			user.setPanier(new ArrayList<ArticlePanier>());
+			
+			// Update Stock
+			articleImpl.updateStock(commandeCreated);
 			
 			this.messageColor = "green";
 			context.addMessage(null, new FacesMessage("Commande passée avec succès."));

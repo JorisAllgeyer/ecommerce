@@ -130,7 +130,6 @@ public class UtilisateurBean implements Serializable {
 	}
 	
 	public String addAdresse() {
-		System.out.println("adresses -> " + adresses);
 		Adresse adresse = new Adresse(Integer.parseInt(numero), rue, ville, codePostal);
 		adresses.add(adresse);
 		return "";

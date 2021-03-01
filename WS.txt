@@ -1,0 +1,19 @@
+// TEST
+http://localhost:8080/ecommerce/rest/service/ping
+
+// WS
+username: root
+password: root
+http://localhost:8080/ecommerce/rest/service/emails-panier
+
+expected response : 
+
+{
+  "client@gmail.com": {
+    "Article [id=2, nom=article 2, description=article 2 description, prix=50.0, remise=0, stock=15]": 1,
+    "Article [id=4, nom=article 3, description=article 3 description, prix=75.0, remise=50, stock=10]": 2
+  },
+  "adresse@joris.com": {
+    "Article [id=1, nom=article 1, description=article 1 description, prix=25.0, remise=10, stock=20]": 4
+  }
+}

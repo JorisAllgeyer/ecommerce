@@ -1,6 +1,7 @@
 package fr.doranco.ecommerce.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,15 +12,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import fr.doranco.ecommerce.control.IArticlePanier;
-import fr.doranco.ecommerce.control.IUtilisateur;
-import fr.doranco.ecommerce.control.UtilisateurImpl;
+import fr.doranco.ecommerce.entity.Article;
 import fr.doranco.ecommerce.entity.ArticlePanier;
 import fr.doranco.ecommerce.entity.Utilisateur;
 import fr.doranco.ecommerce.model.dao.ArticlePanierDAO;
 import fr.doranco.ecommerce.model.dao.IArticlePanierDAO;
-import fr.doranco.ecommerce.model.dao.IUtilisateurDAO;
-import fr.doranco.ecommerce.model.dao.UtilisateurDAO;
 
 @Path("service")
 @Produces(MediaType.TEXT_PLAIN +  ";charset=UTF8")
@@ -36,26 +33,59 @@ public class JerseyService implements IJerseyService {
 	}
 
 	@Override
-	// @RolesAllowed({"WS"})
-	@PermitAll
+	@RolesAllowed({"WS"})
 	@GET
 	@Path("emails-panier")
 	@Produces(MediaType.APPLICATION_JSON + CHARSET)
-	public List<String> getUtilisateursAvecPanierNonVide() {
+	public Map<String, Map<Article, Integer>> getUtilisateursAvecPanierNonVide() {
 		
-		List<String> emailList = new ArrayList<String>();
+		IArticlePanierDAO<ArticlePanier> articlePanierDAO = new ArticlePanierDAO();
+		// Emails and Panier
+		Map<String, Map<Article, Integer>> emailsMap = new HashMap<String, Map<Article, Integer>>();
 		
 		try {
-			IArticlePanierDAO<ArticlePanier> articlePanierDAO = new ArticlePanierDAO();
 			List<Utilisateur> userList = articlePanierDAO.getUsers();
 			
-			userList.forEach(user -> emailList.add(user.getEmail()));
+			// Loop for users
+			userList.forEach(user -> {
+				Map<Article, Integer> articleAndQty = new HashMap<Article, Integer>();
+				
+				// Loop for articles
+				user.getPanier().forEach(articlePanier -> {
+					Article article = articlePanier.getArticle();
+					Integer qty = articlePanier.getQuantite();
+					articleAndQty.put(article, qty);
+				});
+				
+				emailsMap.put(user.getEmail(), articleAndQty);
+			});
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		return emailList;
+		return emailsMap;
+	}
+	
+	@Override
+	@RolesAllowed({"WS"})
+	@GET
+	@Path("emails-list")
+	@Produces(MediaType.APPLICATION_JSON + CHARSET)
+	public List<String> getEmailsUtilisateursAvecPanierNonVide() {
+		
+		IArticlePanierDAO<ArticlePanier> articlePanierDAO = new ArticlePanierDAO();
+		List<String> emailsList = new ArrayList<String>();
+		
+		try {
+			List<Utilisateur> userList = articlePanierDAO.getUsers();
+			userList.forEach(user -> emailsList.add(user.getEmail()));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return emailsList;
 	}
 
 }

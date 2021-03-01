@@ -72,18 +72,18 @@
 								
 								<!-- Password -->
 								<h:outputLabel for="password">Password</h:outputLabel>
-								<h:inputText id="password" required="true" value="#{utilisateurBean.password}" 
+								<h:inputSecret id="password" required="true" value="#{utilisateurBean.password}" 
 									requiredMessage="Le Mot de passe est obligatoire">
 									<f:validateLength minimum="2" maximum="20" />
-								</h:inputText>
+								</h:inputSecret>
 								<h:message for="password" style="color:red"></h:message>
 								
 								<!-- Password Confirm -->
 								<h:outputLabel for="passwordConfirm">Password confirmation</h:outputLabel>
-								<h:inputText id="passwordConfirm" required="true" value="#{utilisateurBean.passwordConfirm}" 
+								<h:inputSecret id="passwordConfirm" required="true" value="#{utilisateurBean.passwordConfirm}" 
 									requiredMessage="Le Mot de passe est obligatoire">
 									<f:validateLength minimum="2" maximum="20" />
-								</h:inputText>
+								</h:inputSecret>
 								<h:message for="passwordConfirm" style="color:red"></h:message>
 								
 								<!-- Date Naissance -->
