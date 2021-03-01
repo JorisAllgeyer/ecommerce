@@ -40,7 +40,6 @@ public class JerseyService implements IJerseyService {
 	public Map<String, Map<Article, Integer>> getUtilisateursAvecPanierNonVide() {
 		
 		IArticlePanierDAO<ArticlePanier> articlePanierDAO = new ArticlePanierDAO();
-		// Emails and Panier
 		Map<String, Map<Article, Integer>> emailsMap = new HashMap<String, Map<Article, Integer>>();
 		
 		try {

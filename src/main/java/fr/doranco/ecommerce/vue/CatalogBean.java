@@ -55,7 +55,6 @@ public class CatalogBean implements Serializable {
 	}
 	
 	public List<ArticlePanier> getArticlesPanier(Utilisateur user) {
-		// User
 		IArticlePanier articlePanierImpl = new ArticlePanierImpl();
 		
 		try {
@@ -67,7 +66,6 @@ public class CatalogBean implements Serializable {
 	}
 	
 	public List<Article> getListArticles() {
-
 		IArticle articleImpl = new ArticleImpl();
 		
 		try {
@@ -79,7 +77,7 @@ public class CatalogBean implements Serializable {
 	}
 	
 	public void changeQty(String id) {
-		articleQty.put(Integer.parseInt(id), Integer.parseInt(qty));	
+		articleQty.put(Integer.parseInt(id), Integer.parseInt(qty));
 	}
 	
 	public String incrementQty(ArticlePanier ap) {
@@ -99,7 +97,7 @@ public class CatalogBean implements Serializable {
 		try {
 			
 			if (ap.getQuantite() - 1 <= 0) {
-				articlePanierImpl.removeArticlePanier(ap);
+				this.removeArticlePanier(ap);
 			} else {				
 				ap.setQuantite(ap.getQuantite() - 1);
 			}
@@ -123,7 +121,6 @@ public class CatalogBean implements Serializable {
 	}
 	
 	public String getTotal(Utilisateur user) {
-		// ArticlePanier
 		IArticlePanier articlePanierImpl = new ArticlePanierImpl();
 		
 		try {
@@ -140,7 +137,6 @@ public class CatalogBean implements Serializable {
 			return totalPanier.toString();
 			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 			
@@ -180,6 +176,10 @@ public class CatalogBean implements Serializable {
 			this.messageColor = "red";
 			context.addMessage(null, new FacesMessage("Problème lors de l'ajout au panier"));
 		}
+		
+		// Reset Qty, set to 1 by default in articleQty Map
+		qty = "1";
+		this.changeQty(article.getId().toString());
 		
 		return "";
 	}
